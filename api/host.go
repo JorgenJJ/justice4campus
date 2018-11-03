@@ -6,4 +6,5 @@ import (
 
 func TestPost(c *gin.Context) {
 	c.JSON(200, gin.H{"status": "success"})
+
 }

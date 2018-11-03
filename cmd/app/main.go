@@ -12,7 +12,11 @@ import (
 
 func main() {
 
-	storage.Setup()
+	err := storage.Setup()
+	if err != nil {
+		panic(err) // should eventually be handled gracefully
+	}
+
 
 	// get application port from OS for app to listen on
 	port := os.Getenv("PORT")
@@ -38,8 +42,10 @@ func main() {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
 	})
 
-	router.POST("/host", api.TestPost)
-	storage.Setup()
+	router.GET("/room/public", api.GetAllPublicRooms)
+
+	router.POST("/host", api.CreateRoom)
+	
 
 	router.Run(":" + port)
 }
