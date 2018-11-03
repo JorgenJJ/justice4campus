@@ -1,5 +1,5 @@
 # justice4campus  
-This is me contributing  
+This is me contributing.  
 
 
 ### Specification:
