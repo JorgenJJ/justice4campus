@@ -6,8 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/JorgenJJ/justice4campus/internal/storage"
 )
 
 func main() {
@@ -36,10 +34,10 @@ func main() {
 	})
 
 	router.POST("/host", api.TestPost)
-	storage.Setup()
+	//storage.Setup()
 
 	router.Run(":" + port)
-	
+
 	/*
 
 	r := mux.NewRouter()
