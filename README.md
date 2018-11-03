@@ -3,7 +3,13 @@ This is me contributing.
 
 
 ### Specification:
-  1) no user login
+  1) Create rooms
+  - With password for private rooms and without password for public rooms
+  2) Create ideas for each room
+  3) Vote on each idea
+  4) Comment on each idea
+  5) User login
+  
   
   
 ## Core API Specification
@@ -29,7 +35,9 @@ This is me contributing.
 
 ```
 {
-  "": ""
+  "creator": "<user name>",
+  "title": "<title of room>",
+  "password": "<empty for public room>"
 }
 ```
 
@@ -54,7 +62,8 @@ This is me contributing.
 
 ```
 {
-  "": ""
+  "title": "<title of room>",
+  "password": "<empty for public room>"
 }
 ```
 
@@ -70,26 +79,7 @@ This is me contributing.
 * Response type: text/html
 * Response code: 200
 
-### POST /room/{id}
 
-* What: Post action on room, commenting/like/dislike
-* Response type: application/json
-* Response code: 200 if everything is OK
-* Request body template
-
-```
-{
-  "": ""
-}
-```
-
-* Response body template
-
-```
-{
-  "": ""
-}
-```
 ### POST /room/{id}/comment
 
 * What: Post action on room, commenting/like/dislike
@@ -99,7 +89,8 @@ This is me contributing.
 
 ```
 {
-  "": ""
+  "creator": "<user name>"
+  "comment": "<text>"
 }
 ```
 
