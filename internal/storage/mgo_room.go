@@ -6,28 +6,28 @@ import (
 	mgo "github.com/globalsign/mgo"
 )
 
-// IdeaStruct is the template for ideas in the database
-type IdeaStruct struct {
+// RoomStruct is the template for Rooms in the database
+type RoomStruct struct {
 	Poster string `json:"poser"`
 }
 
-// MongoDBIdeas stores the credentials to the database and collection
-type MongoDBIdeas struct {
+// MongoDBRooms stores the credentials to the database and collection
+type MongoDBRooms struct {
 	URI        string
 	NAME       string
 	COLLECTION string
 }
 
-// Ideas variable for other packages to interact with the storage
-var Ideas IdeaStorage
+// Rooms variable for other packages to interact with the storage
+var Rooms RoomStorage
 
-// IdeaStorage creates interface for main application to do CRUD operations
-type IdeaStorage interface {
+// RoomStorage creates interface for main application to do CRUD operations
+type RoomStorage interface {
 	Init()
 }
 
 // Init ensures a collection exists
-func (db *MongoDBIdeas) Init() {
+func (db *MongoDBRooms) Init() {
 	fmt.Println("Initializing collection", db.COLLECTION)
 
 	// establish connection to database and close it again when method finishes
