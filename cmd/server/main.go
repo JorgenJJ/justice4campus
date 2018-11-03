@@ -23,6 +23,16 @@ func main() {
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
 
+	router.GET("/host", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "hosting.tmpl.html", nil)
+	})
+
+	router.GET("/join", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
+	})
+
+
+
 	router.Run(":" + port)
 	/*
 	// get application port from OS for app to listen on
