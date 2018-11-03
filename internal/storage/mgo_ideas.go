@@ -21,7 +21,7 @@ type MongoDBIdeas struct {
 func DBSetup() {
 
 	// create credential struct for MongoDB database
-	Ideas = &MongoDBIdeas{
+	Ideas := &MongoDBIdeas{
 		URI:        os.Getenv("MONGO_DB_URI"),
 		NAME:       os.Getenv("MONGO_DB_NAME"),
 		COLLECTION: os.Getenv("ideas"),
