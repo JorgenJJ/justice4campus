@@ -3,5 +3,4 @@ This is me contributing.
 
 
 ### Specification:
-  1) User login
-  
+  1) no user login

@@ -1,0 +1,74 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-rows: 100px auto auto;
+  height: 100%;
+  width: 100%;
+  font-family: arial;
+}
+
+a {
+  text-decoration: none;
+}
+
+#header {
+  grid-column: 1/4;
+  grid-row: 1/2;
+}
+
+#leftNav {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+
+#rightNav {
+  grid-column: 3/4;
+  grid-row: 2/3;
+}
+
+#footer {
+  grid-column: 1/4;
+  grid-row: 3/4;
+}
+
+#article {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+#btnHost {
+  grid-column: 1/2;
+}
+
+#btnJoin {
+  grid-column: 2/3;
+}
+
+.bigButton {
+  margin: 10px;
+  border: thick solid grey;
+  background-color: lightgrey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 200px;
+  min-height: 150px;
+}
+
+.bigText {
+  height: inherit;
+  width: inherit;
+  color: black;
+  font-size: 100px;
+}
+
+#title {
+  font-size: 30px;
+  grid-column: 1/3;
+  display: flex;
+  justify-content: center;
+}
