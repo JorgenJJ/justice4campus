@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	// get application port from OS for app to listen on
 	port := os.Getenv("PORT")
 
 	if port == "" {
@@ -36,15 +37,10 @@ func main() {
 
 	router.POST("/host", api.TestPost)
 	storage.Setup()
+
 	router.Run(":" + port)
+	
 	/*
-	// get application port from OS for app to listen on
-	port := os.Getenv("PORT")
-	if port == "" {
-		fmt.Println("$PORT must be set")
-	}
-
-
 
 	r := mux.NewRouter()
 
