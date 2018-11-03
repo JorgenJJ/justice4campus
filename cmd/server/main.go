@@ -1,10 +1,13 @@
 package main
 
 import (
+	"github.com/JorgenJJ/justice4campus/api"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/JorgenJJ/justice4campus/internal/storage"
 )
 
 func main() {
@@ -31,8 +34,8 @@ func main() {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
 	})
 
-
-
+	router.POST("/host", api.TestPost)
+	storage.Setup()
 	router.Run(":" + port)
 	/*
 	// get application port from OS for app to listen on
@@ -41,7 +44,7 @@ func main() {
 		fmt.Println("$PORT must be set")
 	}
 
-	storage.Setup()
+
 
 	r := mux.NewRouter()
 
