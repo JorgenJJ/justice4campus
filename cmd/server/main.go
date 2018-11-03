@@ -11,6 +11,9 @@ import (
 )
 
 func main() {
+
+	storage.Setup()
+
 	// get application port from OS for app to listen on
 	port := os.Getenv("PORT")
 
@@ -39,13 +42,4 @@ func main() {
 	storage.Setup()
 
 	router.Run(":" + port)
-	
-	/*
-
-	r := mux.NewRouter()
-
-	fmt.Print("RUNNING")
-	http.Handle("/", r)
-	log.Fatal(http.ListenAndServe(":"+port, r))
-	*/
 }
