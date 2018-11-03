@@ -17,7 +17,7 @@ func main() {
 		fmt.Println("$PORT must be set")
 	}
 
-	storage.IdeaSetup()
+	storage.Setup()
 
 	r := mux.NewRouter()
 
