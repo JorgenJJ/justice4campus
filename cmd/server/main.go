@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/JorgenJJ/justice4campus/api"
+	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -34,7 +35,7 @@ func main() {
 	})
 
 	router.POST("/host", api.TestPost)
-	//storage.Setup()
+	storage.Setup()
 
 	router.Run(":" + port)
 
