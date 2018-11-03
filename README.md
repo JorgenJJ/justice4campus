@@ -70,26 +70,7 @@ This is me contributing.
 * Response type: text/html
 * Response code: 200
 
-### POST /room/{id}
 
-* What: Post action on room, commenting/like/dislike
-* Response type: application/json
-* Response code: 200 if everything is OK
-* Request body template
-
-```
-{
-  "": ""
-}
-```
-
-* Response body template
-
-```
-{
-  "": ""
-}
-```
 ### POST /room/{id}/comment
 
 * What: Post action on room, commenting/like/dislike
