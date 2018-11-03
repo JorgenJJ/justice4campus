@@ -7,29 +7,38 @@ import (
 	mgo "github.com/globalsign/mgo"
 )
 
+// IdeaStruct is the template for ideas in the database
 type IdeaStruct struct {
 	Poster string `json:"poser"`
 }
 
+// MongoDBIdeas stores the credentials to the database and collection
 type MongoDBIdeas struct {
 	URI        string
 	NAME       string
 	COLLECTION string
 }
 
-// TrackSetup configures the global connection to the database
-func DBSetup() {
+var Ideas IdeaStorage
+
+// IdeaStorage creates interface for main application to do CRUD operations
+type IdeaStorage interface {
+	Init()
+}
+
+// IdeaSetup configures the global connection to the database
+func IdeaSetup() {
 
 	// create credential struct for MongoDB database
 	Ideas = &MongoDBIdeas{
 		URI:        os.Getenv("MONGO_DB_URI"),
 		NAME:       os.Getenv("MONGO_DB_NAME"),
-		COLLECTION: os.Getenv("ideas"),
+		COLLECTION: "ideas",
 	}
 	Ideas.Init()
 }
 
-// Init ensures a "tracks" collection exists
+// Init ensures a collection exists
 func (db *MongoDBIdeas) Init() {
 	fmt.Println("Initializing collection", db.COLLECTION)
 
@@ -69,6 +78,5 @@ func (db *MongoDBIdeas) Init() {
 		}
 		fmt.Println("Created collection", db.COLLECTION)
 	}
-
 	fmt.Println("Initialized", db.COLLECTION, "collection!")
 }

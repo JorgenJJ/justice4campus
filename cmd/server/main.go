@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	storage "github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gorilla/mux"
 )
 
@@ -15,6 +16,8 @@ func main() {
 	if port == "" {
 		fmt.Println("$PORT must be set")
 	}
+
+	storage.IdeaSetup()
 
 	r := mux.NewRouter()
 
