@@ -22,14 +22,14 @@ type MongoDBIdeas struct {
 
 // MemberStruct is a template for any user
 type MemberStruct struct {
-	ID       bson.ObjectId `json:"-" bson:"_id"`
+	ID       bson.ObjectId `json:"id" bson:"_id"`
 	Name     string        `json:"name" bson:"name"`
 	Password string        `json:"-" bson:"-"`
 }
 
 // RoomStruct is the template for Rooms in the database
 type RoomStruct struct {
-	ID       bson.ObjectId  `json:"-" bson:"_id"`
+	ID       bson.ObjectId  `json:"id" bson:"_id"`
 	Creator  MemberStruct   `json:"creator" bson:"creator"`
 	Title    string         `json:"title" bson:"title"`
 	Password string         `json:"password" bson:"password"`
@@ -44,14 +44,14 @@ type VoteStruct struct {
 
 // CommentStruct to define the structure of comments
 type CommentStruct struct {
-	ID      bson.ObjectId `json:"-" bson:"_id"`
+	ID      bson.ObjectId `json:"id" bson:"_id"`
 	Creator MemberStruct  `json:"creator" bson:"creator"`
 	Text    string        `json:"text" bson:"text"`
 }
 
 // IdeaStruct is the template for ideas in the database
 type IdeaStruct struct {
-	ID          bson.ObjectId   `json:"-" bson:"_id"`
+	ID          bson.ObjectId   `json:"id" bson:"_id"`
 	Title       string          `json:"title"`
 	Description string          `json:"description" bson:"description"`
 	Vote        VoteStruct      `json:"votes" bson:"votes"`

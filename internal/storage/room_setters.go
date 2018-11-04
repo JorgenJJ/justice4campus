@@ -44,3 +44,39 @@ func (db *MongoDBRooms) AddMember(member MemberStruct, roomTitle string) error {
 	}
 	return nil
 }
+
+func (db *MongoDBRooms) AddMemberWithPassword(member MemberStruct, roomTitle, roomPassword string) error {
+
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	find := bson.D{{"title", roomTitle}, {"password", roomPassword}}
+	member.ID = bson.NewObjectId()
+	update := bson.M{"$push": bson.M{"members": member}}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
+
+	if err != nil {
+		return errors.New("error finding the document")
+	}
+	return nil
+
+}
+
+// DeleteWithTitle removes a specific room from the database
+func (db *MongoDBRooms) DeleteWithTitle(title string) error {
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	find := bson.M{"title": title}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Remove(find)
+	if err != nil {
+		return errors.New("error finding the document")
+	}
+	return nil
+}
