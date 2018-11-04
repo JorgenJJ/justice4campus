@@ -3,7 +3,6 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/JorgenJJ/justice4campus/internal/storage"
-	"fmt"
 )
 
 // CreateRoom persists a new room
