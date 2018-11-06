@@ -1,33 +1,128 @@
 package storage
 
-import "os"
+import (
+	"errors"
+	"fmt"
+	"os"
 
-// Setup runs the setup for each collection
-func Setup() {
-	IdeaSetup()
-	RoomSetup()
-}
+	mgo "github.com/globalsign/mgo"
+)
 
-// IdeaSetup configures the global connection to the database
-func IdeaSetup() {
+// Setup configures the db connection credentials and initializes the database collections
+func Setup() error {
 
-	// create credential struct for MongoDB database
-	Ideas := &MongoDBIdeas{
-		URI:        os.Getenv("MONGO_DB_URI"),
-		NAME:       os.Getenv("MONGO_DB_NAME"),
-		COLLECTION: "ideas",
+	host := MongoDBHost{
+		URI:  os.Getenv("MONGO_DB_URI"),
+		NAME: os.Getenv("MONGO_DB_NAME"),
 	}
-	defer Ideas.Init()
-}
 
-// RoomSetup configures the global connection to the database
-func RoomSetup() {
-
-	// create credential struct for MongoDB database
-	Rooms := &MongoDBRooms{
-		URI:        os.Getenv("MONGO_DB_URI"),
-		NAME:       os.Getenv("MONGO_DB_NAME"),
+	Room = &MongoDBRooms{
+		HOST:       host,
 		COLLECTION: "rooms",
 	}
-	defer Rooms.Init()
+
+	Idea = &MongoDBIdeas{
+		HOST:       host,
+		COLLECTION: "ideas",
+	}
+
+	// initialize and handle error
+	err := Room.Init()
+	if err != nil {
+		return err
+	}
+
+	err = Idea.Init()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Init ensures a collection exists
+func (db *MongoDBRooms) Init() error {
+	fmt.Println("Initializing collection", db.COLLECTION)
+
+	// establish connection to database and close it again when method finishes
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	collExists := false
+
+	// get database names
+	names, err := session.DB(db.HOST.NAME).CollectionNames()
+	if err != nil {
+		return errors.New("error getting db collections")
+	}
+
+	// check if collection name exists in database
+	for _, name := range names {
+		if name == db.COLLECTION {
+			collExists = true
+		}
+	}
+
+	// if not then create a new empty
+	if !collExists {
+		fmt.Println("No", db.COLLECTION, "collection found! Creating one...")
+		info := &mgo.CollectionInfo{
+			Capped:         false,
+			DisableIdIndex: false,
+			ForceIdIndex:   false,
+		}
+		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Create(info)
+		if err != nil {
+			return errors.New("error creating db collection")
+		}
+		fmt.Println("Created collection", db.COLLECTION)
+	}
+	fmt.Println("Initialized", db.COLLECTION, "collection!")
+	return nil
+}
+
+// Init ensures a collection exists
+func (db *MongoDBIdeas) Init() error {
+	fmt.Println("Initializing collection", db.COLLECTION)
+
+	// establish connection to database and close it again when method finishes
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	collExists := false
+
+	// get database names
+	names, err := session.DB(db.HOST.NAME).CollectionNames()
+	if err != nil {
+		return errors.New("error getting db collections")
+	}
+
+	// check if collection name exists in database
+	for _, name := range names {
+		if name == db.COLLECTION {
+			collExists = true
+		}
+	}
+
+	// if not then create a new empty
+	if !collExists {
+		fmt.Println("No", db.COLLECTION, "collection found! Creating one...")
+		info := &mgo.CollectionInfo{
+			Capped:         false,
+			DisableIdIndex: false,
+			ForceIdIndex:   false,
+		}
+		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Create(info)
+		if err != nil {
+			return errors.New("error creating db collection")
+		}
+		fmt.Println("Created collection", db.COLLECTION)
+	}
+	fmt.Println("Initialized", db.COLLECTION, "collection!")
+	return nil
 }

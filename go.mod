@@ -23,5 +23,5 @@ require (
 	gopkg.in/yaml.v2 v2.2.1 // indirect
 )
 
-// +heroku install ./cmd/...
+// +heroku install ./...
 // +heroku goVersion go1.11.1

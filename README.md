@@ -34,11 +34,9 @@ This is me contributing.
 * Request body template
 
 ```
-{
-  "creator": "<user name>",
-  "title": "<title of room>",
-  "password": "<empty for public room>"
-}
+nickName: "<user name>"
+roomName: "<title of room>"
+roomPassword: "<empty for public room>"
 ```
 
 * Response body template
@@ -61,10 +59,9 @@ This is me contributing.
 * Request body template
 
 ```
-{
-  "title": "<title of room>",
-  "password": "<empty for public room>"
-}
+nickName: "<user name>"
+roomName: "<title of room>",
+roomPassword: "<empty for public room>"
 ```
 
 * Response body template
@@ -88,10 +85,8 @@ This is me contributing.
 * Request body template
 
 ```
-{
-  "creator": "<user name>"
-  "comment": "<text>"
-}
+nickName: "<user name>"
+comment: "<text>"
 ```
 
 * Response body template
