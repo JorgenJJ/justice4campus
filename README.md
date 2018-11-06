@@ -71,6 +71,40 @@ roomPassword: "<empty for public room>"
   "": ""
 }
 ```
+### GET /room/public
+* What: Gets all of the public rooms
+* Response: application/json
+* Response code: 200
+```
+{
+  "rooms": [
+    {
+      "id": "<id>",
+      "creator": {
+        "id": "<id>",
+        "name": "<user name>"
+      },
+      "title": "<room title>",
+      "password": "",
+      "members": [
+        {
+          "id": "<id>",
+          "name": "<user name>"
+        },
+        {
+          "id": "<id>",
+          "name": "<user name>"
+        }
+      ]
+    }
+  ]
+}
+
+
+```
+
+
+
 ### GET /room/{id}
 * What: Get room
 * Response type: text/html
