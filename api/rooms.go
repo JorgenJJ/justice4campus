@@ -4,6 +4,7 @@ import (
 	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
 	"github.com/liip/sheriff"
+	"net/http"
 	//"encoding/json"
 )
 
@@ -91,4 +92,21 @@ func AddMemberToRoom(c *gin.Context) {
 
 	c.Redirect(301, "/room/" + room.ID.Hex())
 	//c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
+}
+
+func ShowRoom(c *gin.Context) {
+	/*
+	url := c.Request.URL.Path
+	ideaID := strings.Split(url, "/")[2]
+	*/
+	ideaID := c.Param("ideaID")
+	ideaID = ideaID[1:]
+	room, err := storage.Room.FindWithID(ideaID)
+	if err != nil {
+		c.JSON(200, gin.H{"status": "400", "err": err})
+		return
+	}
+
+	c.HTML(http.StatusOK, "room.tmpl.html", room)
+
 }

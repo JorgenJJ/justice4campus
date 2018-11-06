@@ -40,11 +40,16 @@ func main() {
 
 	router.GET("/join", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
+
 	})
+
 	router.POST("/join", api.AddMemberToRoom)
 
-	router.GET("/room/all", api.GetAllRoomMetas)
+	//router.GET("/room/all", api.GetAllRoomMetas)
 
 	router.POST("/host", api.CreateRoom)
+
+	router.GET("/room/*ideaID", api.ShowRoom)
+
 	router.Run(":" + port)
 }
