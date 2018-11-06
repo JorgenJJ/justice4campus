@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/liip/sheriff"
-	//"encoding/json"
+	"fmt"
 )
 
 // CreateRoom persists a new room
@@ -47,6 +47,44 @@ func CreateRoom(c *gin.Context) {
 
 
 
+// AddMemberToRoom appends a new member to an existing room
+func AddMemberToRoom(c *gin.Context) {
+
+	member := storage.UserStruct {
+		Name: c.PostForm("nickName"),
+	}
+
+	err := storage.Room.AddMember(member, c.PostForm("roomName"), c.PostForm("roomPassword"))
+	if err != nil {
+		c.JSON(200, gin.H{"status": "400", "err": err})
+		return
+	}
+	c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
+}
+
+
+
+
+// GetRoom get a room with id or title
+func GetRoom(c *gin.Context) {
+
+	id := c.Param("id")
+
+	if id == "all" {
+		GetAllRoomMetas(c)
+		return
+	}
+
+	room, err := storage.Room.Find(id)
+	if err != nil {
+		c.JSON(200, gin.H{"status": "400", "err": err})
+		fmt.Println(err)
+		return
+	}
+	c.JSON(200, gin.H{"status": "success", "room": room})
+}
+
+
 // GetAllRoomMetas finds all rooms that are public available..
 func GetAllRoomMetas(c *gin.Context) {
 
@@ -66,20 +104,4 @@ func GetAllRoomMetas(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"status": "success", "rooms": roomMetas})
-}
-
-
-// AddMemberToRoom appends a new member to an existing room
-func AddMemberToRoom(c *gin.Context) {
-
-	member := storage.UserStruct {
-		Name: c.PostForm("nickName"),
-	}
-
-	err := storage.Room.AddMember(member, c.PostForm("roomName"), c.PostForm("roomPassword"))
-	if err != nil {
-		c.JSON(200, gin.H{"status": "400", "err": err})
-		return
-	}
-	c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
 }
