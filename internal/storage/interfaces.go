@@ -13,7 +13,7 @@ type IdeaStorage interface {
 type RoomStorage interface {
 	Init() error
 	Add(room RoomStruct) (RoomStruct, error)
-	FindWithTitle(title string) (RoomStruct, error)
+	Find(id string) (RoomStruct, error)
 	FindAll() ([]RoomStruct, error)
 	FindWithID(ideaID string) (RoomStruct, error)
 	AddMember(member UserStruct, roomTitle, roomPassword string) error

@@ -47,6 +47,8 @@ func main() {
 
 	//router.GET("/room/all", api.GetAllRoomMetas)
 
+	router.GET("/room/:id", api.GetRoom)
+	
 	router.POST("/host", api.CreateRoom)
 
 	router.GET("/room/*ideaID", api.ShowRoom)

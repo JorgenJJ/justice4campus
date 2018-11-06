@@ -7,8 +7,8 @@ import (
 	bson "github.com/globalsign/mgo/bson"
 )
 
-// FindWithTitle gets a RoomStruct based on its title
-func (db *MongoDBRooms) FindWithTitle(title string) (RoomStruct, error) {
+// Find gets a RoomStruct based on its title
+func (db *MongoDBRooms) Find(id string) (RoomStruct, error) {
 
 	var room RoomStruct
 
@@ -18,7 +18,8 @@ func (db *MongoDBRooms) FindWithTitle(title string) (RoomStruct, error) {
 	}
 	defer session.Close()
 
-	find := bson.M{"title": title}
+	find := bson.M{"$or": []bson.M{bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"title": id}}}
+	//find := bson.M{"title": id}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&room)
 	if err != nil {
 		return room, errors.New("error finding the document")
@@ -42,13 +43,11 @@ func (db *MongoDBRooms) FindAll() ([]RoomStruct, error) {
 	if err != nil {
 		return rooms, errors.New("error finding the document")
 	}
-
 	return rooms, nil
 }
 
 // FindWithID gets a RoomStruct based on its id
 func (db *MongoDBRooms) FindWithID(ideaID string) (RoomStruct, error) {
-
 	var room RoomStruct
 
 	session, err := mgo.Dial(db.HOST.URI)
