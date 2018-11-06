@@ -7,6 +7,10 @@ var Room RoomStorage
 // IdeaStorage interface options
 type IdeaStorage interface {
 	Init() error
+	Add(idea IdeaStruct) (IdeaStruct, error)
+	Vote(ideaId string, vote int) (error)
+	Comment(ideaId string, comment CommentStruct) (error)
+
 }
 
 // RoomStorage interface options
