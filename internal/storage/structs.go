@@ -1,6 +1,8 @@
 package storage
 
-import bson "github.com/globalsign/mgo/bson"
+import (
+	bson "github.com/globalsign/mgo/bson"
+)
 
 // MongoDBHost stores the credentials to the database and collection
 type MongoDBHost struct {
@@ -20,20 +22,22 @@ type MongoDBIdeas struct {
 	COLLECTION string
 }
 
-// MemberStruct is a template for any user
-type MemberStruct struct {
+// UserStruct is a template for any user
+type UserStruct struct {
 	ID       bson.ObjectId `json:"id" bson:"_id"`
-	Name     string        `json:"name" bson:"name"`
+	Name     string        `json:"name" groups:"meta" bson:"name"`
 	Password string        `json:"-" bson:"-"`
 }
 
 // RoomStruct is the template for Rooms in the database
 type RoomStruct struct {
-	ID       bson.ObjectId  `json:"id" bson:"_id"`
-	Creator  MemberStruct   `json:"creator" bson:"creator"`
-	Title    string         `json:"title" bson:"title"`
-	Password string         `json:"password" bson:"password"`
-	Members  []MemberStruct `json:"members" bson:"members"`
+	ID       bson.ObjectId `json:"id" groups:"meta" bson:"_id"`
+	Creator  UserStruct    `json:"creator" groups:"meta" bson:"creator"`
+	Title    string        `json:"title" groups:"meta" bson:"title"`
+	Password string        `json:"-" bson:"password"`
+	Members  []UserStruct  `json:"members" bson:"members"`
+	IsPublic bool          `json:"is_public" groups:"meta" bson:"is_public"`
+	IdeaIDs  []string      `json:"idea_ids" bson:"idea_ids"`
 }
 
 // VoteStruct stores the voting data
@@ -45,7 +49,7 @@ type VoteStruct struct {
 // CommentStruct to define the structure of comments
 type CommentStruct struct {
 	ID      bson.ObjectId `json:"id" bson:"_id"`
-	Creator MemberStruct  `json:"creator" bson:"creator"`
+	Creator UserStruct    `json:"creator" bson:"creator"`
 	Text    string        `json:"text" bson:"text"`
 }
 

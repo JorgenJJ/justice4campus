@@ -17,6 +17,7 @@ func main() {
 	}
 
 
+
 	// get application port from OS for app to listen on
 	port := os.Getenv("PORT")
 
@@ -42,10 +43,10 @@ func main() {
 	})
 	router.POST("/join", api.AddMemberToRoom)
 
-	router.GET("/room/public", api.GetAllPublicRooms)
-
 	router.POST("/host", api.CreateRoom)
-	
 
+	router.GET("/room/:id", api.GetRoom)
+	
+	router.POST("/host", api.CreateRoom)
 	router.Run(":" + port)
 }

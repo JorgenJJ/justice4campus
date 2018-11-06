@@ -18,6 +18,7 @@ func (db *MongoDBRooms) Add(room RoomStruct) (RoomStruct, error) {
 
 	room.ID = bson.NewObjectId()
 	room.Creator.ID = bson.NewObjectId()
+	room.IsPublic = room.Password == ""
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Insert(&room)
 	if err != nil {
 		return room, errors.New("error inserting the document")
@@ -26,7 +27,7 @@ func (db *MongoDBRooms) Add(room RoomStruct) (RoomStruct, error) {
 }
 
 // AddMember appends another member to the member list of the room
-func (db *MongoDBRooms) AddMember(member MemberStruct, roomTitle string) error {
+func (db *MongoDBRooms) AddMember(member UserStruct, roomID, roomPassword string) error {
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {
@@ -34,7 +35,7 @@ func (db *MongoDBRooms) AddMember(member MemberStruct, roomTitle string) error {
 	}
 	defer session.Close()
 
-	find := bson.M{"title": roomTitle}
+	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}, {"password", roomPassword}}
 	member.ID = bson.NewObjectId()
 	update := bson.M{"$push": bson.M{"members": member}}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
@@ -43,26 +44,6 @@ func (db *MongoDBRooms) AddMember(member MemberStruct, roomTitle string) error {
 		return errors.New("error finding the document")
 	}
 	return nil
-}
-
-func (db *MongoDBRooms) AddMemberWithPassword(member MemberStruct, roomTitle, roomPassword string) error {
-
-	session, err := mgo.Dial(db.HOST.URI)
-	if err != nil {
-		return errors.New("error dialing the database")
-	}
-	defer session.Close()
-
-	find := bson.D{{"title", roomTitle}, {"password", roomPassword}}
-	member.ID = bson.NewObjectId()
-	update := bson.M{"$push": bson.M{"members": member}}
-	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
-
-	if err != nil {
-		return errors.New("error finding the document")
-	}
-	return nil
-
 }
 
 // DeleteWithTitle removes a specific room from the database
