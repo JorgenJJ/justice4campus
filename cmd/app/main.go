@@ -42,6 +42,9 @@ func main() {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
 	})
 	router.POST("/join", api.AddMemberToRoom)
+
+	router.POST("/host", api.CreateRoom)
+
 	router.GET("/room/:id", api.GetRoom)
 	
 	router.POST("/host", api.CreateRoom)
