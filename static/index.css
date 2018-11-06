@@ -146,3 +146,16 @@ a {
   margin-left: 50px;
   max-width: 400px;
 }
+
+#roomItem {
+  border: medium solid grey;
+  padding: 5px;
+  background-color: #ededed;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: auto 50px;
+}
+
+#roomItemButton {
+  grid-column: 2/3;
+}
