@@ -10,10 +10,17 @@
   <body>
     <div id="header">
       <div id="roomInfo">
+        <h2>Title</h2>
+        <h3>Made by: </h3>
       </div>
     </div>
     <div id="leftNav">
       <div id="userList">
+        <a href="index.tmpl.html">
+          <div id="leaveBox">
+            Leave room
+          </div>
+        </a>
       </div>
     </div>
     <div id="article">
@@ -21,6 +28,23 @@
     <div id="rightNav">
     </div>
     <div id="footer">
+      <div id="poster">
+        <form id="postIdea" method="POST">
+          <p id="postText">Post new idea:</p>
+          <input type="text" id="postInp" placeholder="New idea" />
+          <input type="submit" value="Post" />
+        </form>
+      </div>
+    </div>
+    <div id="ideas">
+      <div id="idea">
+        <div id="ideaBox">
+          <h3 id="ideaTxt"></h3>
+        </div>
+        <div id="comment">
+          <p id="commentTxt"></p>
+        </div>
+      </div>
     </div>
   </body>
 </html>
