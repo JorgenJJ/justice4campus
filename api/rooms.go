@@ -64,7 +64,6 @@ func AddMemberToRoom(c *gin.Context) {
 }
 
 
-
 // GetRoom get a room with id or title
 func GetRoom(c *gin.Context) {
 
