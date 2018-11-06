@@ -14,8 +14,7 @@ type RoomStorage interface {
 	Init() error
 	Add(room RoomStruct) (RoomStruct, error)
 	FindWithTitle(title string) (RoomStruct, error)
-	FindAllPublic() ([]RoomStruct, error)
-	AddMember(member MemberStruct, roomTitle string) error
-	AddMemberWithPassword(member MemberStruct, roomTitle, roomPassword string) error
+	FindAll() ([]RoomStruct, error)
+	AddMember(member UserStruct, roomTitle, roomPassword string) error
 	DeleteWithTitle(title string) error
 }

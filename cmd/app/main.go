@@ -43,9 +43,8 @@ func main() {
 	})
 	router.POST("/join", api.AddMemberToRoom)
 
-	router.GET("/room/public", api.GetAllPublicRooms)
+	router.GET("/room/all", api.GetAllRoomMetas)
 
 	router.POST("/host", api.CreateRoom)
-
 	router.Run(":" + port)
 }
