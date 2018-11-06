@@ -26,8 +26,8 @@ func (db *MongoDBRooms) FindWithTitle(title string) (RoomStruct, error) {
 	return room, nil
 }
 
-// FindAllPublic gets all the public Rooms, meaning their password field are empty
-func (db *MongoDBRooms) FindAllPublic() ([]RoomStruct, error) {
+// FindAll gets all the public Rooms, meaning their password field are empty
+func (db *MongoDBRooms) FindAll() ([]RoomStruct, error) {
 
 	var rooms []RoomStruct
 
@@ -37,10 +37,11 @@ func (db *MongoDBRooms) FindAllPublic() ([]RoomStruct, error) {
 	}
 	defer session.Close()
 
-	find := bson.M{"password": ""}
-	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).Sort("-_id").All(&rooms)
+	//find := bson.M{"password": ""}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(nil).Sort("-_id").All(&rooms)
 	if err != nil {
 		return rooms, errors.New("error finding the document")
 	}
+
 	return rooms, nil
 }
