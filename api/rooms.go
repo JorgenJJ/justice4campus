@@ -3,6 +3,8 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/JorgenJJ/justice4campus/internal/storage"
+	"github.com/liip/sheriff"
+	//"encoding/json"
 )
 
 // CreateRoom persists a new room
@@ -22,7 +24,7 @@ func CreateRoom(c *gin.Context) {
 	}*/
 
 	// build structs for a new room
-	creator := storage.MemberStruct {
+	creator := storage.UserStruct {
 		Name: c.PostForm("nickName"),
 	}
 
@@ -45,27 +47,36 @@ func CreateRoom(c *gin.Context) {
 
 
 
-// GetAllPublicRooms finds all rooms that are public available..
-func GetAllPublicRooms(c *gin.Context) {
+// GetAllRoomMetas finds all rooms that are public available..
+func GetAllRoomMetas(c *gin.Context) {
 
-	rooms, err := storage.Room.FindAllPublic()
+	rooms, err := storage.Room.FindAll()
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
 
-	c.JSON(200, gin.H{"status": "success", "rooms": rooms})
+	o := sheriff.Options{
+		Groups: []string{"meta"},
+	}
+	
+	roomMetas, err := sheriff.Marshal(&o, rooms)
+	if err != nil {
+		panic(err)
+	}
+
+	c.JSON(200, gin.H{"status": "success", "rooms": roomMetas})
 }
 
 
 // AddMemberToRoom appends a new member to an existing room
 func AddMemberToRoom(c *gin.Context) {
 
-	member := storage.MemberStruct {
+	member := storage.UserStruct {
 		Name: c.PostForm("nickName"),
 	}
 
-	err := storage.Room.AddMemberWithPassword(member, c.PostForm("roomName"), c.PostForm("roomPassword"))
+	err := storage.Room.AddMember(member, c.PostForm("roomName"), c.PostForm("roomPassword"))
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
