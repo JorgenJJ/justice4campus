@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/JorgenJJ/justice4campus/internal/storage"
+	"github.com/gin-gonic/gin"
 	"github.com/liip/sheriff"
 	"fmt"
 )
@@ -42,7 +42,8 @@ func CreateRoom(c *gin.Context) {
 	}
 
 	// respond with the new room data
-	c.JSON(200, gin.H{"status": "success", "message": "created room", "data": room})
+	//c.JSON(200, gin.H{"status": "success", "message": "created room", "data": room})
+	c.Redirect(301, "/room/" + room.ID.Hex())
 }
 
 
@@ -54,14 +55,13 @@ func AddMemberToRoom(c *gin.Context) {
 		Name: c.PostForm("nickName"),
 	}
 
-	err := storage.Room.AddMember(member, c.PostForm("roomName"), c.PostForm("roomPassword"))
+	err := storage.Room.AddMember(member, c.PostForm("roomID"), c.PostForm("roomPassword"))
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
 	c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
 }
-
 
 
 

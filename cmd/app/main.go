@@ -2,12 +2,11 @@ package main
 
 import (
 	"github.com/JorgenJJ/justice4campus/api"
+	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/JorgenJJ/justice4campus/internal/storage"
 )
 
 func main() {
@@ -16,6 +15,7 @@ func main() {
 	if err != nil {
 		panic(err) // should eventually be handled gracefully
 	}
+
 
 
 	// get application port from OS for app to listen on
@@ -42,10 +42,8 @@ func main() {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
 	})
 	router.POST("/join", api.AddMemberToRoom)
-	//router.GET("/room/all", api.GetAllRoomMetas)
 	router.GET("/room/:id", api.GetRoom)
 	
-
 	router.POST("/host", api.CreateRoom)
 	router.Run(":" + port)
 }
