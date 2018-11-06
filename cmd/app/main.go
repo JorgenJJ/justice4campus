@@ -2,12 +2,11 @@ package main
 
 import (
 	"github.com/JorgenJJ/justice4campus/api"
+	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/JorgenJJ/justice4campus/internal/storage"
 )
 
 func main() {
@@ -42,7 +41,6 @@ func main() {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
 	})
 	router.POST("/join", api.AddMemberToRoom)
-
 
 	router.GET("/room/public", api.GetAllPublicRooms)
 
