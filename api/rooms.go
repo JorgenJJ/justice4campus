@@ -5,7 +5,6 @@ import (
 	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
 	"github.com/liip/sheriff"
-	"net/http"
 )
 
 // CreateRoom persists a new room
@@ -65,7 +64,6 @@ func AddMemberToRoom(c *gin.Context) {
 }
 
 
-
 // GetRoom get a room with id or title
 func GetRoom(c *gin.Context) {
 
@@ -120,7 +118,5 @@ func ShowRoom(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
-
-	c.HTML(http.StatusOK, "room.tmpl.html", room)
-
+	c.Redirect(301, "/room/" + room.ID.Hex())
 }

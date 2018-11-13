@@ -46,10 +46,9 @@ func main() {
 	router.POST("/join", api.AddMemberToRoom)
 
 	//router.GET("/room/all", api.GetAllRoomMetas)
-
-	router.GET("/room/:id", api.GetRoom)
-	
 	router.POST("/host", api.CreateRoom)
+
+	//router.GET("/room/:id", api.GetRoom)
 
 	router.GET("/room/*ideaID", api.ShowRoom)
 
