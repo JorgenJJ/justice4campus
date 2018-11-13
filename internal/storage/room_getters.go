@@ -63,3 +63,28 @@ func (db *MongoDBRooms) FindWithID(ideaID string) (RoomStruct, error) {
 	}
 	return room, nil
 }
+
+
+// GetIdeaIDs retrives all of the idea ids for a specific room
+func (db *MongoDBRooms) GetIdeaIDs(roomID string) ([]string, error) {
+
+	var room RoomStruct
+	var ideas []string
+
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return ideas, errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&room)
+	if err != nil {
+		return ideas, errors.New("error finding idea ids")
+	}
+	for _, id := range room.IdeaIDs {
+		ideas = append(ideas, id)
+	}
+
+	return ideas, nil
+}

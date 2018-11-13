@@ -15,8 +15,7 @@ func main() {
 	if err != nil {
 		panic(err) // should eventually be handled gracefully
 	}
-
-
+	
 
 	// get application port from OS for app to listen on
 	port := os.Getenv("PORT")
@@ -49,6 +48,5 @@ func main() {
 	router.POST("/host", api.CreateRoom)
 
 	router.GET("/room/:id", api.GetRoom)
-
 	router.Run(":" + port)
 }

@@ -2,6 +2,7 @@ package storage
 
 import (
 	"errors"
+	"fmt"
 
 	mgo "github.com/globalsign/mgo"
 	bson "github.com/globalsign/mgo/bson"
@@ -56,6 +57,27 @@ func (db *MongoDBRooms) DeleteWithTitle(title string) error {
 
 	find := bson.M{"title": title}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Remove(find)
+	if err != nil {
+		return errors.New("error finding the document")
+	}
+	return nil
+}
+
+// AddIdea appens a new id to a idea
+func (db *MongoDBRooms) AddIdeaID(roomID, ideaID string) error {
+
+	fmt.Println(roomID, ideaID)
+
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}}
+	update := bson.M{"$push": bson.M{"idea_ids": ideaID}}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
+
 	if err != nil {
 		return errors.New("error finding the document")
 	}
