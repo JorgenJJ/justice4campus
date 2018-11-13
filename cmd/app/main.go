@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"fmt"
 )
 
 func main() {
@@ -15,8 +16,7 @@ func main() {
 	if err != nil {
 		panic(err) // should eventually be handled gracefully
 	}
-
-
+	
 
 	// get application port from OS for app to listen on
 	port := os.Getenv("PORT")
@@ -47,6 +47,6 @@ func main() {
 
 	router.GET("/room/:id", api.GetRoom)
 	
-	router.POST("/host", api.CreateRoom)
+	// router.POST("/host", api.CreateRoom)
 	router.Run(":" + port)
 }
