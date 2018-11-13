@@ -15,8 +15,7 @@ func main() {
 	if err != nil {
 		panic(err) // should eventually be handled gracefully
 	}
-
-
+	
 
 	// get application port from OS for app to listen on
 	port := os.Getenv("PORT")
@@ -42,13 +41,17 @@ func main() {
 
 	router.GET("/join", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
+
 	})
+
 	router.POST("/join", api.AddMemberToRoom)
 
+	//router.GET("/room/all", api.GetAllRoomMetas)
 	router.POST("/host", api.CreateRoom)
 
 	router.GET("/room/:id", api.GetRoom)
 
 	router.POST("/createIdea", api.CreateIdea)
+
 	router.Run(":" + port)
 }

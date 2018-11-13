@@ -8,9 +8,8 @@ var Room RoomStorage
 type IdeaStorage interface {
 	Init() error
 	Add(idea IdeaStruct) (IdeaStruct, error)
-	Vote(ideaId string, vote int) (error)
-	Comment(ideaId string, comment CommentStruct) (error)
-
+	Vote(ideaId string, vote int) error
+	Comment(ideaId string, comment CommentStruct) error
 }
 
 // RoomStorage interface options
@@ -19,7 +18,10 @@ type RoomStorage interface {
 	Add(room RoomStruct) (RoomStruct, error)
 	Find(id string) (RoomStruct, error)
 	FindAll() ([]RoomStruct, error)
+	FindWithID(ideaID string) (RoomStruct, error)
 	AddMember(member UserStruct, roomTitle, roomPassword string) error
 	DeleteWithTitle(title string) error
 	IsUserInRoom(uid string, rid string) bool
+	AddIdeaID(roomID, ideaID string) error
+	GetIdeaIDs(roomID string) ([]string, error)
 }

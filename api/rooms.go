@@ -1,10 +1,10 @@
 package api
 
 import (
+	"fmt"
 	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
 	"github.com/liip/sheriff"
-	"fmt"
 )
 
 // CreateRoom persists a new room
@@ -55,7 +55,7 @@ func AddMemberToRoom(c *gin.Context) {
 		Name: c.PostForm("nickName"),
 	}
 
-	err := storage.Room.AddMember(member, c.PostForm("roomID"), c.PostForm("roomPassword"))
+	err := storage.Room.AddMember(member, c.PostForm("roomName"), c.PostForm("roomPassword"))
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
@@ -80,6 +80,7 @@ func GetRoom(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
+	//c.Redirect(301, "/room/" + room.ID.Hex())
 	c.JSON(200, gin.H{"status": "success", "room": room})
 }
 
@@ -96,7 +97,7 @@ func GetAllRoomMetas(c *gin.Context) {
 	o := sheriff.Options{
 		Groups: []string{"meta"},
 	}
-	
+
 	roomMetas, err := sheriff.Marshal(&o, rooms)
 	if err != nil {
 		panic(err)
