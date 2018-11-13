@@ -110,7 +110,26 @@ roomPassword: "<empty for public room>"
 * Response type: text/html
 * Response code: 200
 
+### POST /createIdea
+* What: Creating a Idea
+* Response type: application/json
+* Response code: 200 if everything is OK
+* Request body template
 
+```
+Title: "<Title of Idea>"
+Description: "<Description of Idea>"
+```
+
+* Response body template
+
+```
+{
+  "": ""
+}
+```
+
+## ???? 
 ### POST /room/{id}/comment
 
 * What: Post action on room, commenting/like/dislike
