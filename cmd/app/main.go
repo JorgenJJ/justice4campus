@@ -31,7 +31,9 @@ func main() {
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html", nil)
+		c.HTML(http.StatusOK, "index.tmpl.html",  gin.H{
+			"test" : "testnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+		})
 	})
 
 	router.GET("/host", func(c *gin.Context) {
@@ -46,7 +48,7 @@ func main() {
 	router.POST("/host", api.CreateRoom)
 
 	router.GET("/room/:id", api.GetRoom)
-	
-	router.POST("/host", api.CreateRoom)
+
+	router.POST("/createIdea", api.CreateIdea)
 	router.Run(":" + port)
 }

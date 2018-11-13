@@ -21,4 +21,5 @@ type RoomStorage interface {
 	FindAll() ([]RoomStruct, error)
 	AddMember(member UserStruct, roomTitle, roomPassword string) error
 	DeleteWithTitle(title string) error
+	IsUserInRoom(uid string, rid string) bool
 }

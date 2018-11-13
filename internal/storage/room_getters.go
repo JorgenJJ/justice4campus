@@ -65,3 +65,9 @@ func (db *MongoDBRooms) FindWithID(id string) (RoomStruct, error) {
 	return room, nil
 }
 */
+
+
+// Bool to check if user is in room
+func (db *MongoDBRooms) IsUserInRoom(uid string, rid string) bool {
+	return false
+}

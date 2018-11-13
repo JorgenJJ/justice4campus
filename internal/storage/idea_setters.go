@@ -6,7 +6,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
-// Add inserts a new RoomStruct in the database collection
+// Add inserts a new IdeaStruct in the database collection
 func (db *MongoDBIdeas) Add(idea IdeaStruct) (IdeaStruct, error) {
 
 	session, err := mgo.Dial(db.HOST.URI)
@@ -20,6 +20,7 @@ func (db *MongoDBIdeas) Add(idea IdeaStruct) (IdeaStruct, error) {
 	if err != nil {
 		return idea, errors.New("error inserting the document")
 	}
+	//Room.AddIdeaID(roomID, ideaID string)
 	return idea, nil
 }
 
