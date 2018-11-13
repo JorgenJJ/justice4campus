@@ -48,9 +48,7 @@ func main() {
 	//router.GET("/room/all", api.GetAllRoomMetas)
 	router.POST("/host", api.CreateRoom)
 
-	//router.GET("/room/:id", api.GetRoom)
-
-	router.GET("/room/*ideaID", api.ShowRoom)
+	router.GET("/room/:id", api.GetRoom)
 
 	router.Run(":" + port)
 }
