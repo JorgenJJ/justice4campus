@@ -19,7 +19,6 @@ func (db *MongoDBRooms) Find(id string) (RoomStruct, error) {
 	defer session.Close()
 
 	find := bson.M{"$or": []bson.M{bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"title": id}}}
-	//find := bson.M{"title": id}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&room)
 	if err != nil {
 		return room, errors.New("error finding the document")

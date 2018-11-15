@@ -63,7 +63,7 @@ func (db *MongoDBRooms) DeleteWithTitle(title string) error {
 	return nil
 }
 
-// AddIdea appens a new id to a idea
+// AddIdeaID appens a new id to a idea
 func (db *MongoDBRooms) AddIdeaID(roomID, ideaID string) error {
 
 	fmt.Println(roomID, ideaID)

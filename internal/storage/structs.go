@@ -22,6 +22,12 @@ type MongoDBIdeas struct {
 	COLLECTION string
 }
 
+// MongoDBUsers stores the collection name
+type MongoDBUsers struct {
+	HOST       MongoDBHost
+	COLLECTION string
+}
+
 // UserStruct is a template for any user
 type UserStruct struct {
 	ID       bson.ObjectId `json:"id" bson:"_id"`

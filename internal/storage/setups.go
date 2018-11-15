@@ -26,6 +26,11 @@ func Setup() error {
 		COLLECTION: "ideas",
 	}
 
+	User = &MongoDBUsers{
+		HOST:       host,
+		COLLECTION: "users",
+	}
+
 	// initialize and handle error
 	err := Room.Init()
 	if err != nil {
@@ -33,6 +38,11 @@ func Setup() error {
 	}
 
 	err = Idea.Init()
+	if err != nil {
+		return err
+	}
+
+	err = User.Init()
 	if err != nil {
 		return err
 	}
@@ -85,6 +95,50 @@ func (db *MongoDBRooms) Init() error {
 
 // Init ensures a collection exists
 func (db *MongoDBIdeas) Init() error {
+	fmt.Println("Initializing collection", db.COLLECTION)
+
+	// establish connection to database and close it again when method finishes
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	collExists := false
+
+	// get database names
+	names, err := session.DB(db.HOST.NAME).CollectionNames()
+	if err != nil {
+		return errors.New("error getting db collections")
+	}
+
+	// check if collection name exists in database
+	for _, name := range names {
+		if name == db.COLLECTION {
+			collExists = true
+		}
+	}
+
+	// if not then create a new empty
+	if !collExists {
+		fmt.Println("No", db.COLLECTION, "collection found! Creating one...")
+		info := &mgo.CollectionInfo{
+			Capped:         false,
+			DisableIdIndex: false,
+			ForceIdIndex:   false,
+		}
+		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Create(info)
+		if err != nil {
+			return errors.New("error creating db collection")
+		}
+		fmt.Println("Created collection", db.COLLECTION)
+	}
+	fmt.Println("Initialized", db.COLLECTION, "collection!")
+	return nil
+}
+
+// Init ensures a collection exists
+func (db *MongoDBUsers) Init() error {
 	fmt.Println("Initializing collection", db.COLLECTION)
 
 	// establish connection to database and close it again when method finishes
