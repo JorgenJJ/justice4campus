@@ -45,10 +45,8 @@ func (db *MongoDBRooms) FindAll() ([]RoomStruct, error) {
 	return rooms, nil
 }
 
-/*
-// FindWithID gets a RoomStruct based on its title
-func (db *MongoDBRooms) FindWithID(id string) (RoomStruct, error) {
-
+// FindWithID gets a RoomStruct based on its id
+func (db *MongoDBRooms) FindWithID(ideaID string) (RoomStruct, error) {
 	var room RoomStruct
 
 	session, err := mgo.Dial(db.HOST.URI)
@@ -57,13 +55,21 @@ func (db *MongoDBRooms) FindWithID(id string) (RoomStruct, error) {
 	}
 	defer session.Close()
 
-	err = session.DB(db.HOST.NAME).C(db.COLLECTION).FindId(id).One(&room)
+	find := bson.M{"_id": bson.ObjectIdHex(ideaID)}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&room)
 	if err != nil {
 		return room, errors.New("error finding the document")
 	}
 	return room, nil
 }
-*/
+
+
+// Bool to check if user is in room
+func (db *MongoDBRooms) IsUserInRoom(uid string, rid string) bool {
+	return false
+}
+
+
 
 // GetIdeaIDs retrives all of the idea ids for a specific room
 func (db *MongoDBRooms) GetIdeaIDs(roomID string) ([]string, error) {
@@ -87,4 +93,5 @@ func (db *MongoDBRooms) GetIdeaIDs(roomID string) ([]string, error) {
 	}
 
 	return ideas, nil
+
 }

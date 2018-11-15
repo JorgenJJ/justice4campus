@@ -10,13 +10,14 @@
   <body>
     <div id="header">
       <div id="roomInfo">
+          {}
         <h2>Title</h2>
         <h3>Made by: </h3>
       </div>
     </div>
     <div id="leftNav">
       <div id="userList">
-        <a href="index.tmpl.html">
+        <a href="/">
           <div id="leaveBox">
             Leave room
           </div>
@@ -29,7 +30,7 @@
     </div>
     <div id="footer">
       <div id="poster">
-        <form id="postIdea" method="POST">
+        <form id="postIdea" method="POST" action="createIdea">
           <p id="postText">Post new idea:</p>
           <input type="text" id="postInp" placeholder="New idea" />
           <input type="submit" value="Post" />

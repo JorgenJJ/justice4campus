@@ -30,7 +30,9 @@ func main() {
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html", nil)
+		c.HTML(http.StatusOK, "index.tmpl.html",  gin.H{
+			"test" : "testnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+		})
 	})
 
 	router.GET("/host", func(c *gin.Context) {
@@ -39,13 +41,17 @@ func main() {
 
 	router.GET("/join", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
+
 	})
+
 	router.POST("/join", api.AddMemberToRoom)
 
+	//router.GET("/room/all", api.GetAllRoomMetas)
 	router.POST("/host", api.CreateRoom)
 
 	router.GET("/room/:id", api.GetRoom)
-	
-	// router.POST("/host", api.CreateRoom)
+
+	router.POST("/createIdea", api.CreateIdea)
+
 	router.Run(":" + port)
 }
