@@ -7,7 +7,7 @@ import (
 	bson "github.com/globalsign/mgo/bson"
 )
 
-// FindByID an exisiting user from its username
+// FindByID finds an exisiting user
 func (db *MongoDBUsers) FindByID(id string) (UserStruct, error) {
 
 	var user UserStruct
@@ -19,6 +19,25 @@ func (db *MongoDBUsers) FindByID(id string) (UserStruct, error) {
 	defer session.Close()
 
 	find := bson.M{"_id": bson.ObjectIdHex(id)}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&user)
+	if err != nil {
+		return user, errors.New("error finding the document")
+	}
+	return user, nil
+}
+
+// FindByName finds an exisiting user
+func (db *MongoDBUsers) FindByName(name string) (UserStruct, error) {
+
+	var user UserStruct
+
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return user, errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	find := bson.M{"name": name}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&user)
 	if err != nil {
 		return user, errors.New("error finding the document")

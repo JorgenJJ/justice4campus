@@ -33,6 +33,6 @@ type RoomStorage interface {
 type UserStorage interface {
 	Init() error
 	Add(user UserStruct) (UserStruct, error)
-	//FindByName(username string) (UserStruct, error)
+	FindByName(username string) (UserStruct, error)
 	FindByID(id string) (UserStruct, error)
 }

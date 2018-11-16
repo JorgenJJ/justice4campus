@@ -78,11 +78,7 @@ func (db *MongoDBRooms) Init() error {
 	// if not then create a new empty
 	if !collExists {
 		fmt.Println("No", db.COLLECTION, "collection found! Creating one...")
-		info := &mgo.CollectionInfo{
-			Capped:         false,
-			DisableIdIndex: false,
-			ForceIdIndex:   false,
-		}
+		info := &mgo.CollectionInfo{}
 		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Create(info)
 		if err != nil {
 			return errors.New("error creating db collection")
@@ -122,11 +118,7 @@ func (db *MongoDBIdeas) Init() error {
 	// if not then create a new empty
 	if !collExists {
 		fmt.Println("No", db.COLLECTION, "collection found! Creating one...")
-		info := &mgo.CollectionInfo{
-			Capped:         false,
-			DisableIdIndex: false,
-			ForceIdIndex:   false,
-		}
+		info := &mgo.CollectionInfo{}
 		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Create(info)
 		if err != nil {
 			return errors.New("error creating db collection")
@@ -166,15 +158,24 @@ func (db *MongoDBUsers) Init() error {
 	// if not then create a new empty
 	if !collExists {
 		fmt.Println("No", db.COLLECTION, "collection found! Creating one...")
-		info := &mgo.CollectionInfo{
-			Capped:         false,
-			DisableIdIndex: false,
-			ForceIdIndex:   false,
-		}
+		info := &mgo.CollectionInfo{}
 		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Create(info)
 		if err != nil {
 			return errors.New("error creating db collection")
 		}
+
+		index := mgo.Index{
+			Key:        []string{"name"},
+			Unique:     true,
+			DropDups:   false,
+			Background: true,
+			Sparse:     true,
+		}
+		err := session.DB(db.HOST.NAME).C(db.COLLECTION).EnsureIndex(index)
+		if err != nil {
+			return errors.New("error indexing db collection")
+		}
+
 		fmt.Println("Created collection", db.COLLECTION)
 	}
 	fmt.Println("Initialized", db.COLLECTION, "collection!")
