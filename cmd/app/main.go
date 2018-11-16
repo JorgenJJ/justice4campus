@@ -26,7 +26,7 @@ func main() {
 
 	router := gin.New()
 	router.Use(gin.Logger())
-	router.LoadHTMLGlob("templates/*.tmpl.html")
+	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
@@ -46,9 +46,8 @@ func main() {
 	router.GET("/host", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "hosting.tmpl.html", nil)
 	})
-	router.GET("/join", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
-	})
+
+	router.GET("/join", api.GetAllRooms)
 	router.POST("/host", api.CreateRoom)
 	router.GET("/room/:id", api.GetRoom)
 	router.POST("/join", api.AddMemberToRoom)

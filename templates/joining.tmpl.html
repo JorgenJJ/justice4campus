@@ -13,7 +13,7 @@
     <div id="leftNav">
     </div>
     <div id="article">
-      <form id="newRoomForm" method="POST" action="join">
+      <!--<form id="newRoomForm" method="POST" action="join">
           <p class="descText">Room name:</p>
           <input class="inp" type="text" placeholder="Room name" name="roomName" required/>
           <p class="descText">Room password (optional):</p>
@@ -21,10 +21,11 @@
           <p class="descText">Nickname:</p>
           <input class="inp" type="text" placeholder="Nickname" name="nickName" required/>
           <input type="submit" id="joinSubmit" value="Join room" />
-      </form>
+      </form>-->
       <div id="roomList">
         <div id="roomItem">
           <div id="roomItemInfo">
+            {{range $idx, $item := .rooms}}<p>{{$item.RoomName}}</p>{{end}}
             <h3 id="roomItemName"></h3>
             <p id="roomItemAuthor"></p>
             <p id="roomItemStatus"></p>
