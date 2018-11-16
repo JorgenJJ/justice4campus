@@ -7,8 +7,8 @@ import (
 	bson "github.com/globalsign/mgo/bson"
 )
 
-// Find an exisiting user from its username
-func (db *MongoDBUsers) Find(id string) (UserStruct, error) {
+// FindByID an exisiting user from its username
+func (db *MongoDBUsers) FindByID(id string) (UserStruct, error) {
 
 	var user UserStruct
 
