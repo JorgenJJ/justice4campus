@@ -12,24 +12,24 @@
       <div id="title">
         <h1>IdeaFactory</h1>
         <!-- Sign up form -->
-        <form id="signup" method="POST" action="signup">
+        <form id="signup" method="POST" action="user/signup">
             <p class="descText">Username:</p>
             <input class="inp" type="text" placeholder="Username" name="username" required/>
             <p class="descText">Password:</p>
-            <input class="inp" type="password" placeholder="*********" name="userpassword" required/>
-            <input type="submit" id="createuserSubmit" value="Create User" />
+            <input class="inp" type="password" placeholder="*********" name="password" required/>
+            <input type="submit" id="createuserSubmit" value="Sign up" />
         </form>
         <!-- Log in form -->
-        <form id="login"  method="POST" action="login">
+        <form id="login"  method="POST" action="user/signin">
             <p class="descText">Username:</p>
             <input class="inp" type="text" placeholder="Username" name="username" required/>
             <p class="descText">Password:</p>
-            <input class="inp" type="password" placeholder="*********" name="userpassword" required/>
-            <input type="submit" id="joinSubmit" value="Create User" />
+            <input class="inp" type="password" placeholder="*********" name="password" required/>
+            <input type="submit" id="joinSubmit" value="Sign in" />
         </form>
         <!-- Log out form -->
-        <form id="logout" method="POST" action="logout">
-            <input type="submit" id="logout" value="Log Out">
+        <form id="logout" method="POST" action="user/signout">
+            <input type="submit" id="logout" value="Sign out">
         </form>
       </div>
     </div>

@@ -45,20 +45,22 @@ func (db *MongoDBUsers) FindByName(name string) (UserStruct, error) {
 	return user, nil
 }
 
-// Authenticate finds an exisiting user
-func (db *MongoDBUsers) Authenticate(user UserStruct) (UserStruct, error) {
+// FindByCred finds an exisiting user
+func (db *MongoDBUsers) FindByCred(user UserStruct) (UserStruct, error) {
+
+	var foundUser UserStruct
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {
-		return user, errors.New("error dialing the database")
+		return foundUser, errors.New("error dialing the database")
 	}
 	defer session.Close()
 
 	find := bson.M{"$and": []bson.M{bson.M{"name": user.Name}, bson.M{"password": user.Password}}}
-	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&user)
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&foundUser)
 
 	if err != nil {
-		return user, errors.New("error finding the document")
+		return foundUser, errors.New("error finding user")
 	}
-	return user, nil
+	return foundUser, nil
 }

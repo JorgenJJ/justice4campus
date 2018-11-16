@@ -22,7 +22,7 @@ type RoomStorage interface {
 	Find(id string) (RoomStruct, error)
 	FindAll() ([]RoomStruct, error)
 	FindWithID(ideaID string) (RoomStruct, error)
-	AddMember(member UserStruct, roomTitle, roomPassword string) error
+	AddMember(id string, roomTitle, roomPassword string) error
 	DeleteWithTitle(title string) error
 	IsUserInRoom(uid string, rid string) bool
 	AddIdeaID(roomID, ideaID string) error
@@ -35,5 +35,5 @@ type UserStorage interface {
 	Add(user UserStruct) (UserStruct, error)
 	FindByName(username string) (UserStruct, error)
 	FindByID(id string) (UserStruct, error)
-	Authenticate(user UserStruct) (UserStruct, error)
+	FindByCred(user UserStruct) (UserStruct, error)
 }

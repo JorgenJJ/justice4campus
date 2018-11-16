@@ -28,7 +28,7 @@ func (db *MongoDBRooms) Add(room RoomStruct) (RoomStruct, error) {
 }
 
 // AddMember appends another member to the member list of the room
-func (db *MongoDBRooms) AddMember(member UserStruct, roomID, roomPassword string) error {
+func (db *MongoDBRooms) AddMember(id, roomID, roomPassword string) error {
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {
@@ -37,8 +37,7 @@ func (db *MongoDBRooms) AddMember(member UserStruct, roomID, roomPassword string
 	defer session.Close()
 
 	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}, {"password", roomPassword}}
-	member.ID = bson.NewObjectId()
-	update := bson.M{"$push": bson.M{"members": member}}
+	update := bson.M{"$push": bson.M{"members": id}}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
 
 	if err != nil {

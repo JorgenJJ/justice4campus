@@ -31,8 +31,8 @@ type MongoDBUsers struct {
 // UserStruct is a template for any user
 type UserStruct struct {
 	ID       bson.ObjectId `json:"id" bson:"_id"`
-	Name     string        `json:"name" groups:"meta" bson:"name"`
-	Password string        `json:"-" bson:"password"`
+	Name     string        `json:"username" groups:"meta" bson:"name" form:"username" binding:"required"`
+	Password string        `json:"-" bson:"password" form:"password" binding:"required"`
 }
 
 // RoomStruct is the template for Rooms in the database
@@ -66,5 +66,5 @@ type IdeaStruct struct {
 	Description string          `json:"description" bson:"description"`
 	Vote        VoteStruct      `json:"votes" bson:"votes"`
 	Comments    []CommentStruct `json:"comments" bson:"comments"`
-	RoomID		bson.ObjectId	`json:"id" bson:"_id"`
+	RoomID      bson.ObjectId   `json:"id" bson:"_id"`
 }

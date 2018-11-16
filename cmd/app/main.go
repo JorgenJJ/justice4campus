@@ -37,9 +37,9 @@ func main() {
 
 	
 	// USERS
-	router.POST("/user/create", api.CreateUser)
-	router.POST("/user/login", api.UserLogin)
-
+	router.POST("/user/signup", api.CreateUser)
+	router.POST("/user/signin", api.UserLogin)
+	router.POST("/user/signout", api.UserLogout)
 
 
 	// ROOMS

@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"net/url"
 
 	//"encoding/json"
 )
@@ -15,24 +16,11 @@ import (
 // CreateRoom persists a new room
 func CreateRoom(c *gin.Context) {
 	
-	
-	// check for existing room
-	/*
-	found, err := storage.Room.FindWithTitle(c.PostForm("roomName"))
-	if err != nil {
-		c.JSON(200, gin.H{"status": "400", "err": err})
-		return
-	}
-	if found.ID != "" {
-		c.JSON(200, gin.H{"status": "400", "err": "Room with that title already exists"})
-		return
-	}*/
-
 	// build structs for a new room
 	creator := storage.UserStruct {
 		Name: c.PostForm("nickName"),
 	}
-
+	
 	room := storage.RoomStruct{
 		Creator:  creator,
 		Title:    c.PostForm("roomName"),
@@ -52,15 +40,20 @@ func CreateRoom(c *gin.Context) {
 }
 
 
-
 // AddMemberToRoom appends a new member to an existing room
 func AddMemberToRoom(c *gin.Context) {
 
-	member := storage.UserStruct {
-		Name: c.PostForm("nickName"),
+	userCookie, err := c.Request.Cookie("uid")
+    if err != nil {
+        c.JSON(200, gin.H{"status": "err", "message": err})
 	}
 
-	err := storage.Room.AddMember(member, c.PostForm("roomName"), c.PostForm("roomPassword"))
+	uid, _ := url.QueryUnescape(userCookie.Value)
+	rid := c.PostForm("roomID")
+	
+	fmt.Println("user id", uid, "room id", rid)
+
+	err = storage.Room.AddMember(uid, rid, c.PostForm("roomPassword"))
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
@@ -78,15 +71,13 @@ func GetRoom(c *gin.Context) {
 		GetAllRoomMetas(c)
 		return
 	}
-
 	room, err := storage.Room.Find(id)
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		fmt.Println(err)
 		return
 	}
-	//c.Redirect(301, "/room/" + room.ID.Hex())
-	//c.JSON(200, gin.H{"status": "success", "room": room})
+
 	c.HTML(http.StatusOK, "room.tmpl.html", room)
 }
 
