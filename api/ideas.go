@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
+	"github.com/globalsign/mgo/bson"
 )
 
 // CreateIdea persist a new Idea
@@ -13,6 +14,7 @@ func CreateIdea(c *gin.Context) {
 	idea := storage.IdeaStruct{
 		Title:       c.PostForm("ideaTitle"),
 		Description: c.PostForm("ideaDescription"),
+		RoomID:		 bson.ObjectIdHex(c.PostForm("roomID")),
 	}
 
 	// Percist the Idea
@@ -22,7 +24,7 @@ func CreateIdea(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{"status": "success", "message": "created room", "data": idea})
+	c.JSON(200, gin.H{"status": "success", "message": "created idea", "data": idea})
 	//c.Redirect(301, "/room/" + room.ID.Hex())
 
 	}

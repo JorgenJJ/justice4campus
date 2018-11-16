@@ -66,4 +66,5 @@ type IdeaStruct struct {
 	Description string          `json:"description" bson:"description"`
 	Vote        VoteStruct      `json:"votes" bson:"votes"`
 	Comments    []CommentStruct `json:"comments" bson:"comments"`
+	RoomID		bson.ObjectId	`json:"id" bson:"_id"`
 }

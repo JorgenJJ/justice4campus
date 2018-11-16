@@ -10,9 +10,8 @@
   <body>
     <div id="header">
       <div id="roomInfo">
-          {}
-        <h2>Title</h2>
-        <h3>Made by: </h3>
+        <h2>{{ .Title }}</h2>
+        <h3>Made by: {{ .Creator.Name  }} </h3>
       </div>
     </div>
     <div id="leftNav">
@@ -22,6 +21,7 @@
             Leave room
           </div>
         </a>
+      {{ range .Members }} <br> {{ .Name }} {{ end }}
       </div>
     </div>
     <div id="article">
@@ -30,9 +30,12 @@
     </div>
     <div id="footer">
       <div id="poster">
-        <form id="postIdea" method="POST" action="createIdea">
+        <form id="postIdea" method="POST" action="../createIdea">
           <p id="postText">Post new idea:</p>
-          <input type="text" id="postInp" placeholder="New idea" />
+          <input type="text" id="ideaTitle" placeholder="Title" required />
+          <br>
+          <textarea rows="4" cols="66" name="ideaDescription" placeholder="Description" id="description" required ></textarea>
+          <input type="hidden" id="roomID" value="{{ .ID }}" />
           <input type="submit" value="Post" />
         </form>
       </div>
