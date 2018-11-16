@@ -32,7 +32,7 @@ type MongoDBUsers struct {
 type UserStruct struct {
 	ID       bson.ObjectId `json:"id" bson:"_id"`
 	Name     string        `json:"name" groups:"meta" bson:"name"`
-	Password string        `json:"-" bson:"-"`
+	Password string        `json:"-" bson:"password"`
 }
 
 // RoomStruct is the template for Rooms in the database
