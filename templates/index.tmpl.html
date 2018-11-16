@@ -11,6 +11,26 @@
     <div id="header">
       <div id="title">
         <h1>IdeaFactory</h1>
+        <!-- Sign up form -->
+        <form id="signup" method="POST" action="signup">
+            <p class="descText">Username:</p>
+            <input class="inp" type="text" placeholder="Username" name="username" required/>
+            <p class="descText">Password:</p>
+            <input class="inp" type="password" placeholder="*********" name="userpassword" required/>
+            <input type="submit" id="createuserSubmit" value="Create User" />
+        </form>
+        <!-- Log in form -->
+        <form id="login"  method="POST" action="login">
+            <p class="descText">Username:</p>
+            <input class="inp" type="text" placeholder="Username" name="username" required/>
+            <p class="descText">Password:</p>
+            <input class="inp" type="password" placeholder="*********" name="userpassword" required/>
+            <input type="submit" id="joinSubmit" value="Create User" />
+        </form>
+        <!-- Log out form -->
+        <form id="logout" method="POST" action="logout">
+            <input type="submit" id="logout" value="Log Out">
+        </form>
       </div>
     </div>
     <div id="leftNav">
