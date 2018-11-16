@@ -16,7 +16,7 @@ func CreateIdea(c *gin.Context) {
 	}
 
 	// Percist the Idea
-	idea, err := storage.Idea.Add(idea)
+	idea, err := storage.Idea.Add(idea, "5be1af1eedaad52b0b94227a")
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return

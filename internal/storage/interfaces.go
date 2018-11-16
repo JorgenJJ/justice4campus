@@ -8,7 +8,7 @@ var User UserStorage
 // IdeaStorage interface options
 type IdeaStorage interface {
 	Init() error
-	Add(idea IdeaStruct) (IdeaStruct, error)
+	Add(idea IdeaStruct, roomid string) (IdeaStruct, error)
 	Vote(ideaId string, vote int) error
 	Comment(ideaId string, comment CommentStruct) error
 	Find(id string) (IdeaStruct, error)
