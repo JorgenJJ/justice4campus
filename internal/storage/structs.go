@@ -22,11 +22,17 @@ type MongoDBIdeas struct {
 	COLLECTION string
 }
 
+// MongoDBUsers stores the collection name
+type MongoDBUsers struct {
+	HOST       MongoDBHost
+	COLLECTION string
+}
+
 // UserStruct is a template for any user
 type UserStruct struct {
 	ID       bson.ObjectId `json:"id" bson:"_id"`
 	Name     string        `json:"name" groups:"meta" bson:"name"`
-	Password string        `json:"-" bson:"-"`
+	Password string        `json:"-" bson:"password"`
 }
 
 // RoomStruct is the template for Rooms in the database
@@ -37,6 +43,7 @@ type RoomStruct struct {
 	Password string        `json:"-" bson:"password"`
 	Members  []UserStruct  `json:"members" bson:"members"`
 	IsPublic bool          `json:"is_public" groups:"meta" bson:"is_public"`
+	IdeaIDs  []string      `json:"idea_ids" bson:"idea_ids"`
 }
 
 // VoteStruct stores the voting data

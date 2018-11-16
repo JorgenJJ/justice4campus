@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
 	"github.com/liip/sheriff"
@@ -52,28 +53,6 @@ func CreateRoom(c *gin.Context) {
 
 
 
-// GetAllRoomMetas finds all rooms that are public available..
-func GetAllRoomMetas(c *gin.Context) {
-
-	rooms, err := storage.Room.FindAll()
-	if err != nil {
-		c.JSON(200, gin.H{"status": "400", "err": err})
-		return
-	}
-
-	o := sheriff.Options{
-		Groups: []string{"meta"},
-	}
-	
-	roomMetas, err := sheriff.Marshal(&o, rooms)
-	if err != nil {
-		panic(err)
-	}
-
-	c.JSON(200, gin.H{"status": "success", "rooms": roomMetas})
-}
-
-
 // AddMemberToRoom appends a new member to an existing room
 func AddMemberToRoom(c *gin.Context) {
 
@@ -86,15 +65,49 @@ func AddMemberToRoom(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
+	c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
+}
 
-	room, err := storage.Room.FindWithTitle(c.PostForm("roomName"))
+
+// GetRoom get a room with id or title
+func GetRoom(c *gin.Context) {
+
+	id := c.Param("id")
+
+	if id == "all" {
+		GetAllRoomMetas(c)
+		return
+	}
+
+	room, err := storage.Room.Find(id)
+	if err != nil {
+		c.JSON(200, gin.H{"status": "400", "err": err})
+		fmt.Println(err)
+		return
+	}
+	//c.Redirect(301, "/room/" + room.ID.Hex())
+	c.JSON(200, gin.H{"status": "success", "room": room})
+}
+
+// GetAllRoomMetas finds all rooms that are public available..
+func GetAllRoomMetas(c *gin.Context) {
+
+	rooms, err := storage.Room.FindAll()
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
 
-	c.Redirect(301, "/room/" + room.ID.Hex())
-	//c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
+	o := sheriff.Options{
+		Groups: []string{"meta"},
+	}
+
+	roomMetas, err := sheriff.Marshal(&o, rooms)
+	if err != nil {
+		panic(err)
+	}
+
+	c.JSON(200, gin.H{"status": "success", "rooms": roomMetas})
 }
 
 func GetAllRooms(c *gin.Context) {

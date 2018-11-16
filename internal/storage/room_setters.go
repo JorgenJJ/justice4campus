@@ -2,6 +2,7 @@ package storage
 
 import (
 	"errors"
+	"fmt"
 
 	mgo "github.com/globalsign/mgo"
 	bson "github.com/globalsign/mgo/bson"
@@ -27,7 +28,7 @@ func (db *MongoDBRooms) Add(room RoomStruct) (RoomStruct, error) {
 }
 
 // AddMember appends another member to the member list of the room
-func (db *MongoDBRooms) AddMember(member UserStruct, roomTitle, roomPassword string) error {
+func (db *MongoDBRooms) AddMember(member UserStruct, roomID, roomPassword string) error {
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {
@@ -35,7 +36,7 @@ func (db *MongoDBRooms) AddMember(member UserStruct, roomTitle, roomPassword str
 	}
 	defer session.Close()
 
-	find := bson.D{{"title", roomTitle}, {"password", roomPassword}}
+	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}, {"password", roomPassword}}
 	member.ID = bson.NewObjectId()
 	update := bson.M{"$push": bson.M{"members": member}}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
@@ -56,6 +57,27 @@ func (db *MongoDBRooms) DeleteWithTitle(title string) error {
 
 	find := bson.M{"title": title}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Remove(find)
+	if err != nil {
+		return errors.New("error finding the document")
+	}
+	return nil
+}
+
+// AddIdeaID appens a new id to a idea
+func (db *MongoDBRooms) AddIdeaID(roomID, ideaID string) error {
+
+	fmt.Println(roomID, ideaID)
+
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}}
+	update := bson.M{"$push": bson.M{"idea_ids": ideaID}}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
+
 	if err != nil {
 		return errors.New("error finding the document")
 	}
