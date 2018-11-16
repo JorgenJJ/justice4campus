@@ -35,4 +35,5 @@ type UserStorage interface {
 	Add(user UserStruct) (UserStruct, error)
 	FindByName(username string) (UserStruct, error)
 	FindByID(id string) (UserStruct, error)
+	Authenticate(user UserStruct) (UserStruct, error)
 }

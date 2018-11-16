@@ -44,3 +44,21 @@ func (db *MongoDBUsers) FindByName(name string) (UserStruct, error) {
 	}
 	return user, nil
 }
+
+// Authenticate finds an exisiting user
+func (db *MongoDBUsers) Authenticate(user UserStruct) (UserStruct, error) {
+
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return user, errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	find := bson.M{"$and": []bson.M{bson.M{"name": user.Name}, bson.M{"password": user.Password}}}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&user)
+
+	if err != nil {
+		return user, errors.New("error finding the document")
+	}
+	return user, nil
+}

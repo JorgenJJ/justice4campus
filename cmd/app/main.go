@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"fmt"
 )
+
 
 func main() {
 
@@ -35,23 +35,30 @@ func main() {
 		})
 	})
 
+	
+	// USERS
+	router.POST("/user/create", api.CreateUser)
+	router.POST("/user/login", api.UserLogin)
+
+
+
+	// ROOMS
 	router.GET("/host", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "hosting.tmpl.html", nil)
 	})
-
 	router.GET("/join", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "joining.tmpl.html", nil)
-
 	})
-
-	router.POST("/join", api.AddMemberToRoom)
-
-	//router.GET("/room/all", api.GetAllRoomMetas)
 	router.POST("/host", api.CreateRoom)
-
 	router.GET("/room/:id", api.GetRoom)
+	router.POST("/join", api.AddMemberToRoom)
+	//router.GET("/room/all", api.GetAllRoomMetas)
 
+
+
+	// IDEAS
 	router.POST("/createIdea", api.CreateIdea)
+
 
 	router.Run(":" + port)
 }
