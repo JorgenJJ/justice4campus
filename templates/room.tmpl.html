@@ -32,7 +32,7 @@
       <div id="poster">
         <form id="postIdea" method="POST" action="../createIdea">
           <p id="postText">Post new idea:</p>
-          <input type="text" id="ideaTitle" placeholder="Title" required />
+          <input type="text" id="ideaTitle" placeholder="Title" name="ideaTitle" required />
           <br>
           <textarea rows="4" cols="66" name="ideaDescription" placeholder="Description" id="description" required ></textarea>
           <input type="hidden" id="roomID" value="{{ .ID }}" />

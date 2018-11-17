@@ -19,7 +19,7 @@ func (db *MongoDBRooms) Add(room RoomStruct) (RoomStruct, error) {
 
 	room.ID = bson.NewObjectId()
 	room.Creator.ID = bson.NewObjectId()
-	room.IsPublic = room.Password == ""
+	//room.IsPublic = room.Password == ""
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Insert(&room)
 	if err != nil {
 		return room, errors.New("error inserting the document")
@@ -28,7 +28,7 @@ func (db *MongoDBRooms) Add(room RoomStruct) (RoomStruct, error) {
 }
 
 // AddMember appends another member to the member list of the room
-func (db *MongoDBRooms) AddMember(id, roomID, roomPassword string) error {
+func (db *MongoDBRooms) AddMemberID(id, roomID, roomPassword string) error {
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {

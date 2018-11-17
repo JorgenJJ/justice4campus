@@ -7,7 +7,7 @@ import (
 )
 
 // Add inserts a new IdeaStruct in the database collection
-func (db *MongoDBIdeas) Add(idea IdeaStruct, roomID string) (IdeaStruct, error) {
+func (db *MongoDBIdeas) Add(idea IdeaStruct) (IdeaStruct, error) {
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {
@@ -20,7 +20,7 @@ func (db *MongoDBIdeas) Add(idea IdeaStruct, roomID string) (IdeaStruct, error) 
 	if err != nil {
 		return idea, errors.New("error inserting the document")
 	}
-	Room.AddIdeaID(roomID, idea.ID.Hex())
+	
 	return idea, nil
 }
 

@@ -37,13 +37,14 @@ type UserStruct struct {
 
 // RoomStruct is the template for Rooms in the database
 type RoomStruct struct {
-	ID       bson.ObjectId `json:"id" groups:"meta" bson:"_id"`
-	Creator  UserStruct    `json:"creator" groups:"meta" bson:"creator"`
-	Title    string        `json:"title" groups:"meta" bson:"title"`
-	Password string        `json:"-" bson:"password"`
-	Members  []UserStruct  `json:"members" bson:"members"`
-	IsPublic bool          `json:"is_public" groups:"meta" bson:"is_public"`
-	IdeaIDs  []string      `json:"idea_ids" bson:"idea_ids"`
+	ID        bson.ObjectId `json:"id" groups:"meta" bson:"_id"`
+	CreatorID string        `json:"-" bson:"creator_id"`
+	Creator   UserStruct    `json:"creator" groups:"meta" bson:"-"`
+	Title     string        `json:"title" groups:"meta" bson:"title"`
+	Password  string        `json:"-" bson:"password"`
+	Members   []UserStruct  `json:"members" bson:"members"`
+	IsPublic  bool          `json:"is_public" groups:"meta" bson:"is_public"`
+	IdeaIDs   []string      `json:"idea_ids" bson:"idea_ids"`
 }
 
 // VoteStruct stores the voting data
@@ -61,10 +62,10 @@ type CommentStruct struct {
 
 // IdeaStruct is the template for ideas in the database
 type IdeaStruct struct {
-	ID          bson.ObjectId   `json:"id" bson:"_id"`
+	ID          bson.ObjectId   `json:"_id" bson:"_id"`
 	Title       string          `json:"title"`
 	Description string          `json:"description" bson:"description"`
 	Vote        VoteStruct      `json:"votes" bson:"votes"`
 	Comments    []CommentStruct `json:"comments" bson:"comments"`
-	RoomID      bson.ObjectId   `json:"id" bson:"_id"`
+	// RoomID      string          `json:"room_id" bson:"_id"`
 }

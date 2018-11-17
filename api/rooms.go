@@ -16,19 +16,22 @@ import (
 // CreateRoom persists a new room
 func CreateRoom(c *gin.Context) {
 	
-	// build structs for a new room
-	creator := storage.UserStruct {
-		Name: c.PostForm("nickName"),
-	}
+	cookie, err := c.Request.Cookie("uid")
+    if err != nil {
+		fmt.Println(err)
+		c.JSON(200, gin.H{"status": "no valid user session", "message": "could not create room"})
+		return
+    }
+	uid, _ := url.QueryUnescape(cookie.Value)
 	
-	room := storage.RoomStruct{
-		Creator:  creator,
+	// persist the room
+	room, err := storage.Room.Add(storage.RoomStruct{
+		CreatorID:  uid,
 		Title:    c.PostForm("roomName"),
 		Password: c.PostForm("roomPassword"),
-	}
+		IsPublic: c.PostForm("roomPassword") == "",
+	})
 
-	// persist the room
-	room, err := storage.Room.Add(room)
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
@@ -36,6 +39,7 @@ func CreateRoom(c *gin.Context) {
 
 	// respond with the new room data
 	//c.JSON(200, gin.H{"status": "success", "message": "created room", "data": room})
+	c.SetCookie("room_id", room.ID.Hex(), 3600, "/", "", false, false)
 	c.Redirect(301, "/room/" + room.ID.Hex())
 }
 
@@ -47,13 +51,13 @@ func AddMemberToRoom(c *gin.Context) {
     if err != nil {
         c.JSON(200, gin.H{"status": "err", "message": err})
 	}
-
 	uid, _ := url.QueryUnescape(userCookie.Value)
+	
 	rid := c.PostForm("roomID")
 	
 	fmt.Println("user id", uid, "room id", rid)
 
-	err = storage.Room.AddMember(uid, rid, c.PostForm("roomPassword"))
+	err = storage.Room.AddMemberID(uid, rid, c.PostForm("roomPassword"))
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
