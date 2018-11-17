@@ -159,3 +159,11 @@ a {
 #roomItemButton {
   grid-column: 2/3;
 }
+
+
+.authForms {
+  font-size: 18px;
+  grid-column: 1/6;
+  display: flex;
+  justify-content: center;
+}

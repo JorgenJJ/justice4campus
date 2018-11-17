@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width-1000">
+    <link rel="stylesheet" media="screen" href="../static/index.css">
+    <title>Idea Factory</title>
+  </head>
+  <body>
+    <div id="header">
+      <div id="title">
+        <h1>Sign up</h1>
+      </div>
+
+      <div id="leftNav"></div>
+      <div class="authForms">
+  
+        <!-- Sign up form -->
+        <form id="signup" method="POST" action="/user/signup">
+          <p class="descText">Username:</p>
+          <input class="inp" type="text" placeholder="Username" name="username" required/>
+          <p class="descText">Password:</p>
+          <input id="password" class="inp" type="password" placeholder="********" name="password" required/>
+          <p class="descText">Confirm password:</p>
+          <input id="confirm_password" class="inp" type="password" placeholder="********" required/>
+          <br><br>
+          <input type="submit" id="createuserSubmit" value="Sign up" />
+        </form>
+  
+      </div>
+    <div id="rightNav"></div>
+    <div id="footer"></div>
+  </body>
+</html>
+
+
+<script>
+  var password = document.getElementById("password")
+    , confirm_password = document.getElementById("confirm_password");
+
+  function validatePassword(){
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
+</script>

@@ -2,6 +2,7 @@ package storage
 
 import (
 	"errors"
+	"fmt"
 
 	mgo "github.com/globalsign/mgo"
 	bson "github.com/globalsign/mgo/bson"
@@ -9,8 +10,13 @@ import (
 
 // FindByID finds an exisiting user
 func (db *MongoDBUsers) FindByID(id string) (UserStruct, error) {
+	fmt.Println("GOT ID", id)
 
 	var user UserStruct
+
+	if !bson.IsObjectIdHex(id) {
+		return user, errors.New("not a valid id")
+	}
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {

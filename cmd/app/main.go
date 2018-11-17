@@ -29,17 +29,19 @@ func main() {
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "static")
 
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl.html",  gin.H{
-			"test" : "testnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
-		})
-	})
+	router.GET("/", api.Index)
 
 	
 	// USERS
 	router.POST("/user/signup", api.CreateUser)
 	router.POST("/user/signin", api.UserLogin)
 	router.POST("/user/signout", api.UserLogout)
+	router.GET("user/signin", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "signin.tmpl.html", nil)
+	})
+	router.GET("user/signup", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "signup.tmpl.html", nil)
+	})
 
 
 	// ROOMS
