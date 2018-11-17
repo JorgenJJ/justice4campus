@@ -33,7 +33,7 @@
               <form id="newRoomForm" method="POST" action="/join/{{$room.HexID}}">
               <td>
                 {{if not $room.IsPublic}}
-                <input type="text" placeholder="Password" name="nickName" required/>
+                <input type="text" placeholder="Password" name="roomPassword" required/>
                 {{end}}
               </td>
               <td><input type="submit" value="Join" /></td>

@@ -71,11 +71,11 @@ func (db *MongoDBUsers) FindByCred(user UserStruct) (UserStruct, error) {
 // FindManyByID do as it implies, finds many users from their ids
 func (db *MongoDBUsers) FindManyByID(ids []string) ([]UserStruct, error) {
 
-	var results []UserStruct
+	var users []UserStruct
 
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {
-		return results, errors.New("error dialing the database")
+		return users, errors.New("error dialing the database")
 	}
 	defer session.Close()
 
@@ -83,11 +83,11 @@ func (db *MongoDBUsers) FindManyByID(ids []string) ([]UserStruct, error) {
 	for _, id := range ids {
 		oids = append(oids, bson.ObjectIdHex(id))
 	}
-	find := bson.M{"_id": bson.M{"$in": oids}}
-	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&results)
 
+	find := bson.M{"_id": bson.M{"$in": oids}}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).All(&users)
 	if err != nil {
-		return results, errors.New("error finding user")
+		return users, errors.New("error finding user")
 	}
-	return results, nil
+	return users, nil
 }

@@ -60,7 +60,8 @@ func AddMemberToRoom(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
-	c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
+	c.Redirect(301, "/room/"+ rid)
+	//c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
 }
 
 
@@ -129,8 +130,6 @@ func GetAllRooms(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
-
-
 	c.HTML(http.StatusOK, "joining.tmpl.html", rooms)
 
 

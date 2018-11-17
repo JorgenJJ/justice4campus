@@ -18,6 +18,7 @@ func (db *MongoDBRooms) Add(room RoomStruct) (RoomStruct, error) {
 	defer session.Close()
 
 	room.ID = bson.NewObjectId()
+	room.HexID = room.ID.Hex()
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Insert(&room)
 	if err != nil {
 		return room, errors.New("error inserting the document")
@@ -35,7 +36,7 @@ func (db *MongoDBRooms) AddMemberID(id, roomID, roomPassword string) error {
 	defer session.Close()
 
 	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}, {"password", roomPassword}}
-	update := bson.M{"$push": bson.M{"members": id}}
+	update := bson.M{"$push": bson.M{"member_ids": id}}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
 
 	if err != nil {
