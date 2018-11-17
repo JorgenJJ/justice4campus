@@ -55,7 +55,6 @@ func AddMemberToRoom(c *gin.Context) {
 	
 	rid := c.PostForm("roomID")
 	
-	fmt.Println("user id", uid, "room id", rid)
 
 	err = storage.Room.AddMemberID(uid, rid, c.PostForm("roomPassword"))
 	if err != nil {
@@ -70,11 +69,12 @@ func AddMemberToRoom(c *gin.Context) {
 func GetRoom(c *gin.Context) {
 
 	id := c.Param("id")
-
 	if id == "all" {
 		GetAllRoomMetas(c)
 		return
 	}
+
+	// fetch Room
 	room, err := storage.Room.Find(id)
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "err": err})
@@ -82,7 +82,21 @@ func GetRoom(c *gin.Context) {
 		return
 	}
 
+	// fetch Full data
+	creator, _ := storage.User.FindByID(room.CreatorID)
+	members, _ := storage.User.FindManyByID(room.MemberIDs)
+	ideas, _ := storage.Idea.FindManyByID(room.IdeaIDs)
+
+	// set data
+	room.Creator = creator
+	room.Members = members
+	room.Ideas = ideas
+
+	// set cookie
+	c.SetCookie("room_id", room.ID.Hex(), 3600, "/", "", false, false)
 	c.HTML(http.StatusOK, "room.tmpl.html", room)
+	
+	// c.JSON(200, gin.H{"status": "success", "data": room})
 }
 
 // GetAllRoomMetas finds all rooms that are public available..
@@ -106,6 +120,7 @@ func GetAllRoomMetas(c *gin.Context) {
 	c.JSON(200, gin.H{"status": "success", "rooms": roomMetas})
 }
 
+// GetAllRooms return a JSON object containing meta data of all public rooms
 func GetAllRooms(c *gin.Context) {
 	type Room struct {
 		Title	string

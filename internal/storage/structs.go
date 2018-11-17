@@ -42,9 +42,11 @@ type RoomStruct struct {
 	Creator   UserStruct    `json:"creator" groups:"meta" bson:"-"`
 	Title     string        `json:"title" groups:"meta" bson:"title"`
 	Password  string        `json:"-" bson:"password"`
-	Members   []UserStruct  `json:"members" bson:"members"`
 	IsPublic  bool          `json:"is_public" groups:"meta" bson:"is_public"`
+	MemberIDs []string      `json:"member_ids" bson:"member_ids"`
+	Members   []UserStruct  `json:"members"  groups:"meta" bson:"-"`
 	IdeaIDs   []string      `json:"idea_ids" bson:"idea_ids"`
+	Ideas     []IdeaStruct  `json:"ideas" bson:"-" groups:"meta"`
 }
 
 // VoteStruct stores the voting data

@@ -36,6 +36,6 @@ func CreateIdea(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{"status": "success", "message": "created idea", "data": idea})
-	//c.Redirect(301, "/room/" + room.ID.Hex())
+	// c.JSON(200, gin.H{"status": "success", "message": "created idea", "data": idea})
+	c.Redirect(301, "/room/" + roomID)
 }

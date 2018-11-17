@@ -25,20 +25,22 @@ func (db *MongoDBIdeas) Find(id string) (IdeaStruct, error) {
 	return idea, nil
 }
 
-// FindMany finds all ideas with matching ids
-func (db *MongoDBIdeas) FindMany(ids []string) ([]IdeaStruct, error) {
-	var ideas []IdeaStruct
+// FindManyByID finds all ideas with matching ids
+func (db *MongoDBIdeas) FindManyByID(ids []string) ([]IdeaStruct, error) {
 
+	var ideas []IdeaStruct
 	session, err := mgo.Dial(db.HOST.URI)
 	if err != nil {
 		return ideas, errors.New("error dialing the database")
 	}
 	defer session.Close()
 
-	oids := make([]bson.ObjectId, len(ids))
+	// convert all strings to bson object ids
+	oids := make([]bson.ObjectId, 0)
 	for _, id := range ids {
 		oids = append(oids, bson.ObjectIdHex(id))
 	}
+
 	find := bson.M{"_id": bson.M{"$in": oids}}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).All(&ideas)
 	if err != nil {

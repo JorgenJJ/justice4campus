@@ -2,7 +2,6 @@ package storage
 
 import (
 	"errors"
-	"fmt"
 
 	mgo "github.com/globalsign/mgo"
 	bson "github.com/globalsign/mgo/bson"
@@ -10,8 +9,6 @@ import (
 
 // FindByID finds an exisiting user
 func (db *MongoDBUsers) FindByID(id string) (UserStruct, error) {
-	fmt.Println("GOT ID", id)
-
 	var user UserStruct
 
 	if !bson.IsObjectIdHex(id) {
@@ -69,4 +66,28 @@ func (db *MongoDBUsers) FindByCred(user UserStruct) (UserStruct, error) {
 		return foundUser, errors.New("error finding user")
 	}
 	return foundUser, nil
+}
+
+// FindManyByID do as it implies, finds many users from their ids
+func (db *MongoDBUsers) FindManyByID(ids []string) ([]UserStruct, error) {
+
+	var results []UserStruct
+
+	session, err := mgo.Dial(db.HOST.URI)
+	if err != nil {
+		return results, errors.New("error dialing the database")
+	}
+	defer session.Close()
+
+	oids := make([]bson.ObjectId, 0)
+	for _, id := range ids {
+		oids = append(oids, bson.ObjectIdHex(id))
+	}
+	find := bson.M{"_id": bson.M{"$in": oids}}
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&results)
+
+	if err != nil {
+		return results, errors.New("error finding user")
+	}
+	return results, nil
 }

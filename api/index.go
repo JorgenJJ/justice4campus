@@ -12,6 +12,8 @@ import (
 
 // Index serves the main page with user session status
 func IndexPage(c *gin.Context) {
+	
+	c.SetCookie("room_id", "", 3600, "/", "", false, false)
 
 	// run "water fall" to check if user has valid user id cookie
 	cookie, err := c.Request.Cookie("uid")

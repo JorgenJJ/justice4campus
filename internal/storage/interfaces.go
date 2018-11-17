@@ -12,7 +12,7 @@ type IdeaStorage interface {
 	Vote(ideaId string, vote int) error
 	Comment(ideaId string, comment CommentStruct) error
 	Find(id string) (IdeaStruct, error)
-	FindMany(ids []string) ([]IdeaStruct, error)
+	FindManyByID(ids []string) ([]IdeaStruct, error)
 }
 
 // RoomStorage interface options
@@ -36,4 +36,5 @@ type UserStorage interface {
 	FindByName(username string) (UserStruct, error)
 	FindByID(id string) (UserStruct, error)
 	FindByCred(user UserStruct) (UserStruct, error)
+	FindManyByID(ids []string) ([]UserStruct, error)
 }
