@@ -9,17 +9,22 @@
   </head>
   <body>
     <div id="header">
+      <div id="title">
+        <h1>New room for ideas!</h1>
+      </div>
     </div>
     <div id="leftNav">
     </div>
     <div id="article">
       <form id="newRoomForm" method="POST" action="host">
-        <p class="descText">Room name:</p>
+        <p class="descText">Give the room a name:</p>
         <input class="inp" type="text" placeholder="Room name" name="roomName" required/>
-        <p class="descText">Room password (optional):</p>
-        <input class="inp" type="password" placeholder="*********" name="roomPassword" />
-        <p class="descText">Nickname:</p>
-        <input class="inp" type="text" placeholder="Nickname" name="nickName" required/>
+        <p class="descText">Private room? Add a password:</p>
+        <input id="password" class="inp" type="password" placeholder="*********" name="roomPassword" />
+        <p class="descText">Confirm password:</p>
+        <input id="confirm_password" class="inp" type="password" placeholder="*********" />
+        <!--p class="descText">Nickname:</p>
+        <input class="inp" type="text" placeholder="Nickname" name="nickName" required/-->
         <input type="submit" id="roomSubmit" value="Create room" />
       </form>
     </div>
@@ -29,3 +34,18 @@
     </div>
   </body>
 </html>
+
+<script>
+  var password = document.getElementById("password")
+    , confirm_password = document.getElementById("confirm_password");
+
+  function validatePassword(){
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
+</script>

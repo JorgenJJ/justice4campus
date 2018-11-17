@@ -29,7 +29,7 @@ func main() {
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "static")
 
-	router.GET("/", api.Index)
+	router.GET("/", api.IndexPage)
 
 	
 	// USERS

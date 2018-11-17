@@ -10,22 +10,19 @@
   <body>
     <div id="header">
       <div id="title">
-        <h1>Welcome to IdeaFactory {{if .user_present}} {{.user_data.Name}} {{end}}</h1>
-             
+        <h1>Welcome to IdeaFactory{{if .user_present}} {{.user_data.Name}}{{end}}</h1>
+  
         {{if .user_present}}
-          <!--LOGOUT FORM-->
           <form id="logout" method="POST" action="/user/signout">
               <input type="submit" id="logout" value="Sign out">
           </form>
         {{else}}
-         <!--LOGOUT FORM-->
-          <form id="logout" method="GET" action="/user/signin">
+          <!-->form id="logout" method="GET" action="/user/signin">
               <input type="submit" id="logout" value="Sign in">
           </form>
-           <!--LOGOUT FORM-->
           <form id="logout" method="GET" action="/user/signup">
               <input type="submit" id="logout" value="Sign up">
-          </form>
+          </form-->
         {{end}}
 
       </div>
@@ -33,12 +30,24 @@
     <div id="leftNav">
     </div>
     <div id="article">
-      <a id="btnHost" class="bigButton" href="host">
+
+     {{if .user_present}}
+      <a id="btnLeft" class="bigButton" href="/host">
         <h1 class="bigText">Host</h1>
       </a>
-      <a id="btnJoin" class="bigButton" href="join">
+      <a id="btnRight" class="bigButton" href="/join">
         <h1 class="bigText">Join</h1>
       </a>
+      {{else}}
+      
+      <a id="btnLeft" class="bigButton" href="/user/signin">
+        <h1 class="bigText">Sign in</h1>
+      </a>
+      <a id="btnRight" class="bigButton" href="/user/signup">
+        <h1 class="bigText">Sign up</h1>
+      </a>
+      {{end}}
+
     </div>
     <div id="rightNav">
     </div>
