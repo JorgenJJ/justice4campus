@@ -42,6 +42,7 @@ func (db *MongoDBRooms) FindAll() ([]RoomStruct, error) {
 	if err != nil {
 		return rooms, errors.New("error finding the document")
 	}
+
 	return rooms, nil
 }
 
@@ -63,13 +64,10 @@ func (db *MongoDBRooms) FindWithID(ideaID string) (RoomStruct, error) {
 	return room, nil
 }
 
-
-// Bool to check if user is in room
+// IsUserInRoom Bool to check if user is in room
 func (db *MongoDBRooms) IsUserInRoom(uid string, rid string) bool {
 	return false
 }
-
-
 
 // GetIdeaIDs retrives all of the idea ids for a specific room
 func (db *MongoDBRooms) GetIdeaIDs(roomID string) ([]string, error) {

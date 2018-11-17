@@ -37,7 +37,8 @@ type UserStruct struct {
 
 // RoomStruct is the template for Rooms in the database
 type RoomStruct struct {
-	ID        bson.ObjectId `json:"id" groups:"meta" bson:"_id"`
+	ID        bson.ObjectId `json:"_" bson:"_id"`
+	HexID     string        `json:"hex_id" groups:"meta" bson:"hex_id"`
 	CreatorID string        `json:"-" bson:"creator_id"`
 	Creator   UserStruct    `json:"creator" groups:"meta" bson:"-"`
 	Title     string        `json:"title" groups:"meta" bson:"title"`

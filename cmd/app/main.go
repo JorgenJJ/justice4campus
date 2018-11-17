@@ -53,7 +53,7 @@ func main() {
 	router.GET("/join", api.GetAllRooms)
 	router.POST("/host", api.CreateRoom)
 	router.GET("/room/:id", api.GetRoom)
-	router.POST("/join", api.AddMemberToRoom)
+	router.POST("/join/:id", api.AddMemberToRoom)
 	//router.GET("/room/all", api.GetAllRoomMetas)
 
 
