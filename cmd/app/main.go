@@ -36,6 +36,7 @@ func main() {
 	router.POST("/user/signup", api.CreateUser)
 	router.POST("/user/signin", api.UserLogin)
 	router.POST("/user/signout", api.UserLogout)
+	
 	router.GET("user/signin", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "signin.tmpl.html", nil)
 	})

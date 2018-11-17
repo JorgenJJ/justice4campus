@@ -13,10 +13,8 @@
       <div id="title">
         <h1>Sign in</h1>
       </div>
-
       <div id="leftNav"></div>
-      <div class="authForms">
-  
+      <div class="authForms">  
         <!-- Log in form -->
         <form id="login"  method="POST" action="/user/signin">
             <p class="descText">Username:</p>
@@ -24,8 +22,20 @@
             <p class="descText">Password:</p>
             <input class="inp" type="password" placeholder="*********" name="password" required/>
             <br><br>
+
+            {{if .message}}
+              <div class="{{.message.Type}}">
+                <p>
+                  {{.message.Text}}
+                  <a href="{{.message.Link}}">{{.message.LinkText}}</a>
+                <p>
+              </div>
+            {{end}}
+
             <input type="submit" id="joinSubmit" value="Sign in" />
         </form>
+
+
   
       </div>
     <div id="rightNav"></div>

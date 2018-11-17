@@ -167,3 +167,16 @@ a {
   display: flex;
   justify-content: center;
 }
+
+
+.messageBase {
+  font-size: 18px;
+}
+
+.messageAlert, .messageBase {
+  color: red
+}
+
+.messageConfirm, .messageBase {
+  color: green
+}

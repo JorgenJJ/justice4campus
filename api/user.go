@@ -7,7 +7,6 @@ import (
 )
 
 
-
 // CreateUser adds a new user to the database and create as login session by setting the user id cookie
 func CreateUser(c *gin.Context) {
 
@@ -47,7 +46,16 @@ func UserLogin(c *gin.Context) {
 	}
 	
 	if form.Name != auth.Name || form.Password != auth.Password {
-		c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+		//c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+		c.HTML(http.StatusOK, "signin.tmpl.html", gin.H{
+			"message": gin.H {
+				"Type": "messageAlert",
+				"Text": "Invalid credentials. Try again or ",
+				"Link": "/user/signup",
+				"LinkText": "sign up",
+			},
+		})
+		//c.Redirect(301, c.GetHeader("Origin") + "/user/signup")
 		return
 	}
 
@@ -63,10 +71,6 @@ func UserLogout(c *gin.Context) {
 	// Set cookie and redirect user to frontpage
 	c.SetCookie("uid", "", 0, "/", "", false, false)
 	c.Redirect(301, c.GetHeader("Origin"))
-}
-
-func UserAuth(c *gin.Context) {
-
 }
 
 
