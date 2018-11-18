@@ -91,5 +91,4 @@ func (db *MongoDBRooms) GetIdeaIDs(roomID string) ([]string, error) {
 	}
 
 	return ideas, nil
-
 }

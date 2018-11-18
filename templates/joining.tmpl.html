@@ -15,38 +15,32 @@
     </div>
     <div id="leftNav"></div>
 
-
       <div id="roomsList">
-        <table>
-          <tr>
-            <th>Room name</th>
-            <th>Creator</th>
-            <th>Status</th>
-            <th>Password</th>
-            <th>Join</th>
-          </tr>
-          
-          {{range $i, $room := .}}
-            <tr>
-              <td>{{$room.Title}}</td>
-              <td>{{$room.Creator.Name}}</td>
-              <td>
-                {{len $room.MemberIDs}} Members <br>
-                {{len $room.IdeaIDs}} Ideas
-              </td>
 
-              <form id="newRoomForm" method="POST" action="/join/{{$room.HexID}}">
-              <td>
+        {{range $i, $room := . }}
+          <div class="joinRoomEntity">
+
+            <div class="roomEntityTitle">
+              <h3>{{$room.Title}} (created by: {{$room.Creator.Name}})</h3>
+             </div>
+
+             <div class="roomEntityStatus">
+              Members: {{len $room.MemberIDs}}
+              Ideas: {{len $room.IdeaIDs}}
+             </div>
+
+             <div class="roomEntityPassword">
+              <form method="POST" action="/join/{{$room.HexID}}">
                 {{if not $room.IsPublic}}
                   <input type="text" placeholder="Password" name="roomPassword" required/>
                 {{end}}
-              </td>
-              <td><input type="submit" value="Join" /></td>
+                <input type="submit" value="Join" />    
               </form>
-            </tr>
-            {{end}}
-          </table>
-        </div>
+             </div>
+          </div>
+        {{end}}
+
+      </div>
     </div><div id="rightNav">
     </div><div id="footer">
     </div>

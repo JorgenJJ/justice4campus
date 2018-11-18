@@ -132,6 +132,15 @@ func GetAllRooms(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "400", "err": err})
 		return
 	}
+
+	for i := 0; i < len(rooms); i++ {
+		rooms[i].Creator, err = storage.User.FindByID(rooms[i].CreatorID)
+		if err != nil {
+			c.JSON(200, gin.H{"status": "400", "err": err})
+			return
+		}
+	}
+
 	c.HTML(http.StatusOK, "joining.tmpl.html", rooms)
 
 

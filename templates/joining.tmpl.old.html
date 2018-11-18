@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width-1000">
+    <link rel="stylesheet" media="screen" href="../static/index.css">
+    <title>Idea Factory - Join</title>
+  </head>
+  <body>
+    <div id="header">
+      <div id="title">
+        <h1>Find your room</h1>
+      </div>
+    </div>
+    <div id="leftNav"></div>
+
+
+      <div id="roomsTable">
+        <table>
+          <tr>
+            <th>Room name</th>
+            <th>Creator</th>
+            <th>Status</th>
+            <th>Password</th>
+            <th>Join</th>
+          </tr>
+          
+          {{range $i, $room := .}}
+            {{if $room.IsPublic}}
+              <tr class="publicRoomTableElemnt">
+            {{else}}
+              <tr class="privateRoomTableElemnt">
+            {{end}}
+              <td>{{$room.Title}}</td>
+              <td>{{$room.Creator.Name}}</td>
+              <td>
+                {{len $room.MemberIDs}} Members <br>
+                {{len $room.IdeaIDs}} Ideas
+              </td>
+              <form method="POST" action="/join/{{$room.HexID}}">
+              <td>
+                {{if not $room.IsPublic}}
+                  <input type="text" placeholder="Password" name="roomPassword" required/>
+                {{end}}
+              </td>
+              <td><input type="submit" value="Join" /></td>
+              </form>
+            </tr>
+            {{end}}
+          </table>
+        </div>
+    </div><div id="rightNav">
+    </div><div id="footer">
+    </div>
+  </body>
+</html>

@@ -160,16 +160,46 @@ a {
   grid-column: 2/4;
 }
 
-#roomsList {
+#roomsTable {
   grid-column: 2/2;
   grid-row: 2/3;
   display: flex;
 }
 
+#roomsTable, th, td {
+  width: 100%
+}
+
 .joinRoomEntity {
   margin: 10px;
-  border: 1px solid black;
+  border: 1px solid lightgray;
 }
+
+.roomEntityTitle {
+  grid-column: 1/2;
+}
+
+.roomEntityStatus {
+  grid-column: 2/3;
+}
+
+.roomEntityPassword {
+  grid-column: 3/4;
+}
+
+.roomEntityJoin {
+  grid-column: 4/5;
+}
+
+.publicRoomTableElemnt {
+  background-color: darkgreen;
+}
+
+
+.privateRoomTableElemnt {
+  background-color: darkred;
+}
+
 
 
 .authForms {
