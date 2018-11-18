@@ -53,6 +53,8 @@ func AddMemberToRoom(c *gin.Context) {
 	}
 	uid, _ := url.QueryUnescape(userCookie.Value)
 	rid := c.Param("id")
+
+	fmt.Println()
 	
 
 	err = storage.Room.AddMemberID(uid, rid, c.PostForm("roomPassword"))

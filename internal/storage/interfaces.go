@@ -27,6 +27,7 @@ type RoomStorage interface {
 	IsUserInRoom(uid string, rid string) bool
 	AddIdeaID(roomID, ideaID string) error
 	GetIdeaIDs(roomID string) ([]string, error)
+	HasMember(memberID, roomID string) (bool, error)
 }
 
 // UserStorage interface options

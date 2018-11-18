@@ -81,7 +81,7 @@ func (db *MongoDBRooms) GetIdeaIDs(roomID string) ([]string, error) {
 	}
 	defer session.Close()
 
-	find := bson.D{{"_id", bson.ObjectIdHex(roomID)}}
+	find := bson.M{"_id": bson.ObjectIdHex(roomID)}
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Find(find).One(&room)
 	if err != nil {
 		return ideas, errors.New("error finding idea ids")

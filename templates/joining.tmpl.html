@@ -21,6 +21,7 @@
           <tr>
             <th>Room name</th>
             <th>Creator</th>
+            <th>Status</th>
             <th>Password</th>
             <th>Join</th>
           </tr>
@@ -29,11 +30,15 @@
             <tr>
               <td>{{$room.Title}}</td>
               <td>{{$room.Creator.Name}}</td>
+              <td>
+                {{len $room.MemberIDs}} Members <br>
+                {{len $room.IdeaIDs}} Ideas
+              </td>
 
               <form id="newRoomForm" method="POST" action="/join/{{$room.HexID}}">
               <td>
                 {{if not $room.IsPublic}}
-                <input type="text" placeholder="Password" name="roomPassword" required/>
+                  <input type="text" placeholder="Password" name="roomPassword" required/>
                 {{end}}
               </td>
               <td><input type="submit" value="Join" /></td>
