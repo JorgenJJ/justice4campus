@@ -42,7 +42,6 @@ func (db *MongoDBRooms) FindAll() ([]RoomStruct, error) {
 	if err != nil {
 		return rooms, errors.New("error finding the document")
 	}
-
 	return rooms, nil
 }
 

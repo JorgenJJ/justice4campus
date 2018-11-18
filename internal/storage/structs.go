@@ -52,23 +52,25 @@ type RoomStruct struct {
 
 // VoteStruct stores the voting data
 type VoteStruct struct {
-	Likes   int `json:"likes" bson:"likes"`
-	Disikes int `json:"dislikes" bson:"dislikes"`
+	Likes    int `json:"likes" bson:"likes"`
+	Dislikes int `json:"dislikes" bson:"dislikes"`
 }
 
 // CommentStruct to define the structure of comments
 type CommentStruct struct {
-	ID      bson.ObjectId `json:"id" bson:"_id"`
-	Creator UserStruct    `json:"creator" bson:"creator"`
-	Text    string        `json:"text" bson:"text"`
+	ID        bson.ObjectId `json:"id" bson:"_id"`
+	Creator   UserStruct    `json:"creator" bson:"-"`
+	CreatorID string        `json:"creator_id" bson:"creator_id"`
+	Text      string        `json:"text" bson:"text"`
 }
 
 // IdeaStruct is the template for ideas in the database
 type IdeaStruct struct {
 	ID          bson.ObjectId   `json:"_id" bson:"_id"`
+	HexID       string          `json:"hex_id" bson:"hex_id"`
 	Title       string          `json:"title"`
 	Description string          `json:"description" bson:"description"`
 	Vote        VoteStruct      `json:"votes" bson:"votes"`
 	Comments    []CommentStruct `json:"comments" bson:"comments"`
-	// RoomID      string          `json:"room_id" bson:"_id"`
+	//RoomID      string          `json:"room_id" bson:"_id"`
 }

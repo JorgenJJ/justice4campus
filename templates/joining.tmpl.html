@@ -15,9 +15,16 @@
     </div>
     <div id="leftNav"></div>
 
-      <div id="roomsList">
+      {{if .message}}
+        <div class="{{.message.Type}}">
+          <p>
+            {{.message.Text}}
+          <p>
+        </div>
+      {{end}}
 
-        {{range $i, $room := . }}
+      <div id="roomsList">
+        {{range $i, $room := .rooms }}
           <div class="joinRoomEntity">
 
             <div class="roomEntityTitle">
@@ -25,14 +32,14 @@
              </div>
 
              <div class="roomEntityStatus">
-              Members: {{len $room.MemberIDs}}
+              Members: {{len $room.Members}}
               Ideas: {{len $room.IdeaIDs}}
              </div>
 
              <div class="roomEntityPassword">
               <form method="POST" action="/join/{{$room.HexID}}">
                 {{if not $room.IsPublic}}
-                  <input type="text" placeholder="Password" name="roomPassword" required/>
+                  <input  type="password" placeholder="Password" name="roomPassword" required/>
                 {{end}}
                 <input type="submit" value="Join" />    
               </form>

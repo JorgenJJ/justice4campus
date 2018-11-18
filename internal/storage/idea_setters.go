@@ -16,6 +16,7 @@ func (db *MongoDBIdeas) Add(idea IdeaStruct) (IdeaStruct, error) {
 	defer session.Close()
 
 	idea.ID = bson.NewObjectId()
+	idea.HexID = idea.ID.Hex()
 	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Insert(&idea)
 	if err != nil {
 		return idea, errors.New("error inserting the document")
@@ -23,6 +24,7 @@ func (db *MongoDBIdeas) Add(idea IdeaStruct) (IdeaStruct, error) {
 	
 	return idea, nil
 }
+
 
 /**
 	Add a user vote in the database collection for a given Idea
@@ -51,7 +53,7 @@ func (db *MongoDBIdeas) Vote(ideaId string, vote int) error {
 		}
 	} else {
 		// add 1 to Dislikes
-		newValue := idea.Vote.Disikes + 1
+		newValue := idea.Vote.Dislikes + 1
 		update := bson.M{"$push": bson.M{"dislikes": newValue}}
 		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
 		if err != nil {
@@ -61,7 +63,7 @@ func (db *MongoDBIdeas) Vote(ideaId string, vote int) error {
 	return nil
 }
 
-// Add a user comment in the database collection for a given Idea
+// Comment a user comment in the database collection for a given Idea
 func (db *MongoDBIdeas) Comment(ideaId string, comment CommentStruct) error {
 
 	session, err := mgo.Dial(db.HOST.URI)

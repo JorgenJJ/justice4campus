@@ -34,21 +34,22 @@ func (db *MongoDBRooms) AddMemberID(id, roomID, roomPassword string) error {
 	}
 	defer session.Close()
 
-	hasMember, err := Room.HasMember(id, roomID)
-	if err != nil {
-		return errors.New("error finding the document")
-	}
-
-	if !hasMember {
-		// update room with new member id
-		find := bson.M{"_id": bson.ObjectIdHex(roomID), "password": roomPassword}
-		update := bson.M{"$push": bson.M{"member_ids": id}}
-
-		err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
+	/*
+		hasMember, err := Room.HasMember(id, roomID)
 		if err != nil {
 			return errors.New("error finding the document")
 		}
+	*/
+	//if !hasMember {
+	// update room with new member id
+	find := bson.M{"_id": bson.ObjectIdHex(roomID), "password": roomPassword}
+	update := bson.M{"$push": bson.M{"member_ids": id}}
+
+	err = session.DB(db.HOST.NAME).C(db.COLLECTION).Update(find, update)
+	if err != nil {
+		return errors.New("error finding the document")
 	}
+	//}
 	return nil
 }
 

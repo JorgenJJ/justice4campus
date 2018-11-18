@@ -28,7 +28,6 @@ func main() {
 	router.Use(gin.Logger())
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "static")
-
 	router.GET("/", api.IndexPage)
 
 	
@@ -44,7 +43,6 @@ func main() {
 		c.HTML(http.StatusOK, "signup.tmpl.html", nil)
 	})
 
-
 	// ROOMS
 	router.GET("/host", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "hosting.tmpl.html", nil)
@@ -56,11 +54,8 @@ func main() {
 	router.POST("/join/:id", api.AddMemberToRoom)
 	//router.GET("/room/all", api.GetAllRoomMetas)
 
-
-
 	// IDEAS
 	router.POST("/createIdea", api.CreateIdea)
-
-
+	router.POST("/comment/:idea_id", api.InsertComment)
 	router.Run(":" + port)
 }

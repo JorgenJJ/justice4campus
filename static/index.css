@@ -191,21 +191,10 @@ a {
   grid-column: 4/5;
 }
 
-.publicRoomTableElemnt {
-  background-color: darkgreen;
-}
-
-
-.privateRoomTableElemnt {
-  background-color: darkred;
-}
-
-
-
 .authForms {
   font-size: 18px;
   grid-column: 1/4;
-  grid-row: 2/2;
+  grid-row: 2/3;
   display: flex;
   justify-content: center;
 }
@@ -219,5 +208,5 @@ a {
 }
 
 .messageConfirm, .messageBase {
-  color: G
+  color: green
 }

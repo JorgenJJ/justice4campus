@@ -21,17 +21,11 @@
             Leave room
           </div>
         </a>
+      <br>
+      Members: {{len .Members}} <br>
       {{ range .Members }} <br> {{ .Name }} {{ end }}
 
-      <br><br>
-      ONLY FOR TESTING <br>
-      Members: {{len .Members}} <br>
-      Ideas: {{len .Ideas}}
-
-
-      </div>
     </div>
-    <div id="article">
     </div>
     <div id="rightNav">
     </div>
@@ -48,6 +42,28 @@
       </div>
     </div>
     <div id="ideas">
+      {{range $i, $idea := .Ideas}}
+        <div id="idea">
+          <div id="ideaBox">
+            <h3>{{$idea.Title}} ({{$idea.Vote.Likes}} &#x1f44d; | {{$idea.Vote.Dislikes}} &#x1F44E | {{len $idea.Comments}} &#x1F4AC)</h3>
+            <p>{{$idea.Description}}</p>
+          </div>
+          <br>
+          {{range $i, $comment := $idea.Comments}}
+            <div id="comment">
+              <strong>{{$comment.Creator.Name}}</strong>
+              <p id="commentTxt">{{$comment.Text}} </p>
+            </div>
+          {{end}}
+          <form method="POST" action="/comment/{{$idea.HexID}}">
+            <textarea rows="4" cols="66" name="commentText" placeholder="Comment" required ></textarea>
+            <br>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+      {{end}}
+    </div>
+    <!--div id="ideas">
       <div id="idea">
         <div id="ideaBox">
           <h3 id="ideaTxt"></h3>
@@ -56,6 +72,6 @@
           <p id="commentTxt"></p>
         </div>
       </div>
-    </div>
+    </div-->
   </body>
 </html>
