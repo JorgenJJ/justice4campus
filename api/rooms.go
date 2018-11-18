@@ -4,18 +4,15 @@ import (
 	"fmt"
 	"github.com/JorgenJJ/justice4campus/internal/storage"
 	"github.com/gin-gonic/gin"
-	// "github.com/liip/sheriff"
-	// "html/template"
 	"net/http"
-	// "os"
 	"net/url"
-
-	//"encoding/json"
+	"text/template"
 )
 
 // CreateRoom persists a new room
 func CreateRoom(c *gin.Context) {
 	
+	// get user id
 	cookie, err := c.Request.Cookie("uid")
     if err != nil {
 		fmt.Println(err)
@@ -38,7 +35,6 @@ func CreateRoom(c *gin.Context) {
 	}
 
 	// respond with the new room data
-	//c.JSON(200, gin.H{"status": "success", "message": "created room", "data": room})
 	c.SetCookie("room_id", room.ID.Hex(), 3600, "/", "", false, false)
 	c.Redirect(301, "/room/" + room.ID.Hex())
 }
@@ -47,6 +43,7 @@ func CreateRoom(c *gin.Context) {
 // AddMemberToRoom appends a new member to an existing room
 func AddMemberToRoom(c *gin.Context) {
 
+	// get user and room id
 	userCookie, err := c.Request.Cookie("uid")
     if err != nil {
         c.JSON(200, gin.H{"status": "err", "message": err})
@@ -54,19 +51,19 @@ func AddMemberToRoom(c *gin.Context) {
 	uid, _ := url.QueryUnescape(userCookie.Value)
 	rid := c.Param("id")
 
+	// try to add member to room
 	err = storage.Room.AddMemberID(uid, rid, c.PostForm("roomPassword"))
 	if err != nil {
 		c.JSON(200, gin.H{"status": "400", "message": "unauthorized", "redirect": c.GetHeader("Origin") + "/join"})
 		return
 	}
 	c.Redirect(301, "/room/"+ rid)
-	//c.JSON(200, gin.H{"status": "success", "message": "You are now added to the room"})
 }
 
 
 // GetRoom get a room with id or title
 func GetRoom(c *gin.Context) {
-
+	
 	id := c.Param("id")
 
 	// fetch Room
@@ -82,6 +79,46 @@ func GetRoom(c *gin.Context) {
 	members, _ := storage.User.FindManyByID(room.MemberIDs)
 	ideas, _ := storage.Idea.FindManyByID(room.IdeaIDs)
 
+
+	// Find all creator IDs
+	creatorIDs := make([]string, 0)
+	for _, idea := range ideas {
+		creatorIDs = append(creatorIDs, idea.CreatorID)
+		for _, comment := range idea.Comments {
+			creatorIDs = append(creatorIDs, comment.CreatorID)
+		}
+	}
+	creators, _ := storage.User.FindManyByID(creatorIDs)
+	for _, creator := range creators {
+		for i := range ideas {
+			if ideas[i].CreatorID == creator.ID.Hex() {
+				ideas[i].Creator = creator
+			}
+			for j := range ideas[i].Comments {
+				if ideas[i].Comments[j].CreatorID == creator.ID.Hex() {
+					ideas[i].Comments[j].Creator = creator
+				}
+				
+			}
+		}
+	}
+
+/*
+	// match and append creators
+	for i := range ideas {
+		for j := range ideas[i].Comments {
+			for _, creator := range creators {
+				if ideas[i].Comments[j].CreatorID == creator.ID.Hex() {
+					ideas[i].Comments[j].Creator = creator
+				}
+				if ideas[i].CreatorID == creator.ID.Hex() {
+					ideas[i].Creator = creator
+				}
+			}
+		}
+	}
+	*/
+	/*
 	// loop through all idea comments and find it's creator (definitely very effecient ( ͡° ͜ʖ ͡°) )
 	for _, idea := range ideas {
 		for i := range idea.Comments {
@@ -93,6 +130,7 @@ func GetRoom(c *gin.Context) {
 			}
 		}	
 	}
+	*/
 
 	// set data
 	room.Creator = creator
@@ -102,8 +140,6 @@ func GetRoom(c *gin.Context) {
 	// set cookie
 	c.SetCookie("room_id", room.ID.Hex(), 3600, "/", "", false, false)
 	c.HTML(http.StatusOK, "room.tmpl.html", room)
-	
-	// c.JSON(200, gin.H{"status": "success", "data": room})
 }
 
 // GetAllRooms return a JSON object containing meta data of all public rooms
@@ -115,7 +151,7 @@ func GetAllRooms(c *gin.Context) {
 		return
 	}
 
-	for i := 0; i < len(rooms); i++ {
+	for i := range rooms {
 		rooms[i].Creator, err = storage.User.FindByID(rooms[i].CreatorID)
 		if err != nil {
 			c.JSON(200, gin.H{"status": "400", "err": err})
@@ -131,27 +167,4 @@ func GetAllRooms(c *gin.Context) {
 	c.HTML(http.StatusOK, "joining.tmpl.html", gin.H{
 		"rooms": rooms,
 	})
-
-	/*
-	tpl := template.Must(template.New("joining.tmpl.html").Parse(`{{define "T"}}{{.RoomName}}{{end}}`))
-
-
-	for _, room := range rooms {
-		room.Title = "<div id=\"roomItem\">" +
-			"<div id=\"roomItemInfo\">" +
-			"<h3 id=\"roomItemName\">" + room.Title +
-			"</h3>"
-
-		tmplVars := map[string]interface{} {
-			"RoomName": template.HTML("<h1>" + room.Title + "</h1>"),
-		}
-		tpl.ExecuteTemplate(os.Stdout, "T", tmplVars)
-	}
-	*/
-
-	// t := template.Must(template.New("joining.tmpl.html").Parse("joining.tmpl.html"))
-	// t.Execute(os.Stdout, data)
-
-	//r := Room{"AnimeZone <.<", "Jørgen-san :3"}
-	// c.HTML(http.StatusOK, "joining.tmpl.html", nil)
 }

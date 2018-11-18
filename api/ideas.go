@@ -8,18 +8,25 @@ import (
 
 // CreateIdea persist a new Idea
 func CreateIdea(c *gin.Context) {
-	// Check if user is in room
-	//if (storage.Room.IsUserInRoom(getuid(), getroomid())) { }
 
+	// get user and room id
 	roomCookie, err := c.Request.Cookie("room_id")
     if err != nil {
         c.JSON(200, gin.H{"status": "err", "message": err})
 	}
 	roomID, _ := url.QueryUnescape(roomCookie.Value)
 
+	userCookie, err := c.Request.Cookie("uid")
+    if err != nil {
+        c.JSON(200, gin.H{"status": "err", "message": err})
+	}
+	uid, _ := url.QueryUnescape(userCookie.Value)
+	
+	// create Idea entity
 	idea := storage.IdeaStruct{
 		Title:       c.PostForm("ideaTitle"),
 		Description: c.PostForm("ideaDescription"),
+		CreatorID: uid,
 	}
 
 	// Percist the Idea

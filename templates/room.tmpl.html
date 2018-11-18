@@ -45,7 +45,7 @@
       {{range $i, $idea := .Ideas}}
         <div id="idea">
           <div id="ideaBox">
-            <h3>{{$idea.Title}} ({{$idea.Vote.Likes}} &#x1f44d; | {{$idea.Vote.Dislikes}} &#x1F44E | {{len $idea.Comments}} &#x1F4AC)</h3>
+            <h3>{{$idea.Title}} ({{$idea.Vote.Likes}} &#x1f44d; | {{$idea.Vote.Dislikes}} &#x1F44E | {{len $idea.Comments}} &#x1F4AC) by {{$idea.Creator.Name}}</h3>
             <p>{{$idea.Description}}</p>
           </div>
           <br>

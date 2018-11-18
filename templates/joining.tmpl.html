@@ -35,7 +35,6 @@
               Members: {{len $room.Members}}
               Ideas: {{len $room.IdeaIDs}}
              </div>
-
              <div class="roomEntityPassword">
               <form method="POST" action="/join/{{$room.HexID}}">
                 {{if not $room.IsPublic}}
@@ -46,7 +45,6 @@
              </div>
           </div>
         {{end}}
-
       </div>
     </div><div id="rightNav">
     </div><div id="footer">
