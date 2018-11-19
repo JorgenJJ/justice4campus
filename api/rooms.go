@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/url"
-	"text/template"
 )
 
 // CreateRoom persists a new room
