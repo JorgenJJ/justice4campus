@@ -1,4 +1,4 @@
-package sotrage
+package tests
 
 import (
 	//"github.com/JorgenJJ/justice4campus/internal/storage"
