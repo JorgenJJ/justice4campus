@@ -4,11 +4,11 @@
 The idea is a web-service where users can create either private or public rooms and share ideas with each other. Users inside the room will be able to write ideas and send them to the room and database, where all ideas for that room are stored. Ideas can be up- or downvoted and commented on.
 
 ##### Technologies used
-  :heavy_check_mark: Heroku
-  :x: Docker
-  :heavy_check_mark: OpenStack
-  :heavy_check_mark: Database
-  :x: Cloud Functions
+  :heavy_check_mark: Heroku \
+  :x: Docker \
+  :heavy_check_mark: OpenStack \
+  :heavy_check_mark: Database \
+  :x: Cloud Functions 
 
 
 ### Specification:
