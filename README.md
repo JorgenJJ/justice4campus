@@ -5,7 +5,7 @@ The ideas is a web-service where users can create either private or public rooms
 
 ### Specification:
   1) Create rooms
-  1.1) With password for private rooms and without password for public rooms
+  - With password for private rooms and without password for public rooms
   2) Create ideas for each room
   3) Comment on each idea
   4) User login
