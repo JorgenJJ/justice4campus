@@ -105,3 +105,16 @@ Description: "<Description of Idea>"
 commentText: "<text>"
 ```
 
+## REFLECTION - Rights and wrongs
+
+Coming up with an idea went faster than expected, which led to the group quickly getting started. After that most things went as planned. There were some complications and some people got stuck at certain areas, but as the group mostly worked together at campus we were able to help each other out. The project might have gone on for a bit longer than we hoped for, but we never felt too pressured on time. 
+
+## REFLECTION - Hard aspects
+
+We realized a bit too late that we were only using two out of three required aspects, so we had to make a OpenStack deployment somewhat last second, which was difficult. Testing locally on Herkou was also challanging at times. 
+
+## WHAT WE LEARNED
+
+Overall we got more comfortable with Go and Heroku deployments in the duration of the project. We also learnt how to make websites with Go using the template library, as that is something we hadn't touched before. This included both running html templates through Go, as well as sending and retrieving data to and from said templates to display the data we needed. 
+
+### TOTAL WORK HOURS: 75
