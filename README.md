@@ -38,6 +38,11 @@ ___
 * Response type: REDIRECT TO /
 * Response code: 200
 
+### POST `/signout`
+* What: Signs a user out, unsets cookie
+* Response type: REDIRECT TO /
+* Response code: 200
+
 ### GET `/host`
 * What: Form for creating a room
 * Response type: text/html
