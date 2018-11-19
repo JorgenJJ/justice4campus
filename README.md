@@ -1,7 +1,7 @@
 # Justice4camPUS
 
 ### Idea 
-The ideas is a web-service where users can create either private or public rooms and share ideas with each other. Users inside the room will be able to write ideas and send them to the room and database, where all ideas for that room are stored. Then they might be able to vote on ideas and other things that we haven't thought of yet xD
+The ideas is a web-service where users can create either private or public rooms and share ideas with each other. Users inside the room will be able to write ideas and send them to the room and database, where all ideas for that room are stored. Ideas can be up- or downvoted and commented on.
 
 ### Specification:
   1) Create rooms
