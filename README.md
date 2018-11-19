@@ -1,7 +1,15 @@
 # Justice4camPUS
 
 ### Idea 
-The ideas is a web-service where users can create either private or public rooms and share ideas with each other. Users inside the room will be able to write ideas and send them to the room and database, where all ideas for that room are stored. Ideas can be up- or downvoted and commented on.
+The idea is a web-service where users can create either private or public rooms and share ideas with each other. Users inside the room will be able to write ideas and send them to the room and database, where all ideas for that room are stored. Ideas can be up- or downvoted and commented on.
+
+##### Technologies used
+  :heavy_check_mark: Heroku
+  :x: Docker
+  :heavy_check_mark: OpenStack
+  :heavy_check_mark: Database
+  :x: Cloud Functions
+
 
 ### Specification:
   1) Create rooms
@@ -11,9 +19,42 @@ The ideas is a web-service where users can create either private or public rooms
   4) User login
   5) Vote on each idea
 
+
+### Installation guide
+
+Application is intended to be launched using [Heroku Toolbelt](https://devcenter.heroku.com/articles/heroku-cli)
+
+Fetch app:
+```
+$ git clone https://github.com/JorgenJJ/justice4campus.git
+$ cd justice4campus
+```
+
+Install dependencies:
+```
+go install ./...
+```
+
+Launch app
+```
+Heroku local
+```
+
+Test app:
+```
+Heroku local -f Procfile.test
+```
+
+##### App is accessible on port `8080`
+
+
 ### "Behind the scenes"
 All users, rooms and ideas are persisted in their respective MongoDB collection. Each room object stores `id` references to users and submitted ideas in the room. Each idea and its comments stores the reference aswell. The reference structure allows for non-dublicate storing of e.g. full data of users when they submit a comment.
 The user login session is created by setting a cookie with the users id and retrieving it when needed.
+
+The app is running live on [Heroku](https://justice4campus.herokuapp.com) free tier web dyno.
+The app uses NoSQL MongoDB as persistent storage.
+MongoDB service is deployed on OpenStack at SkyHigh NTNU.
 
 
 ## Core API Specification
